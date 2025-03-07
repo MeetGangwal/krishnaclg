@@ -279,13 +279,12 @@ const JobDescription = () => {
                   {singleJob.auditionDetails.script && (
                     <>
                       <h1 className="font-bold">Script:</h1>
-                      <a
-                        href={singleJob.auditionDetails.script}
-                        download
-                        className="font-normal text-blue-600 underline"
+                      <p
+                        
+                        className="font-normal text-gray-600 "
                       >
                         {singleJob.auditionDetails.script}
-                      </a>
+                      </p>
                     </>
                   )}
                   <h1 className="font-bold">
@@ -306,7 +305,7 @@ const JobDescription = () => {
                     onChange={handleVideoUpload}
                     className="mt-2 p-2 border rounded-md w-full"
                   />
-                  <Button onClick={applyJobHandler}>Upload</Button>
+                  <Button onClick={handleVideoUpload}>Upload</Button>
                 </div>
               )}
             </div>

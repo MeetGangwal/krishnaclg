@@ -82,7 +82,7 @@ const Navbar = () => {
                   }</Link>
                 </motion.li>
               ))
-            : ["/", "/JOBS", "/NEWS", "/FindDirector"].map((path, index) => (
+            : ["/", "/JOBS", "/NEWS", "/DIRECTOR"].map((path, index) => (
                 <motion.li key={index} whileHover={{ scale: 1.1 }}>
                   <Link to={path} className={`pb-1 ${activePage === path ? "border-b-2 border-white" : "hover:border-b-2 hover:border-white"}`}>{
                     path === "/" ? "HOME" : path.replace("/", "")

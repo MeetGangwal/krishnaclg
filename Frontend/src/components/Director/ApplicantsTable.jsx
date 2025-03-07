@@ -87,7 +87,7 @@ const ApplicantsTable = () => {
                         }
                         className="flex w-fit items-center my-2 cursor-pointer text-blue-600"
                       >
-                        <span>View Profile</span>
+                        <span>View Audition</span>
                       </div>
 
                       {/* Shortlisting Actions */}

@@ -459,7 +459,7 @@ const PostJob = () => {
                 <>
                   <div>
                     <Label>Upload Audition Script</Label>
-                    <Input type="file" accept=".pdf,.docx" name="auditionScript" onChange={changeEventHandler} />
+                    <Input type="text"  name="auditionScript" onChange={changeEventHandler} />
                   </div>
                   <div>
                     <Label>Receive Audition Video</Label>

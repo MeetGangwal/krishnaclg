@@ -2,21 +2,31 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Shared/Navbar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Calendar, Contact, Mail, Pen, MapPin, User } from "lucide-react";
+import { Calendar, Contact, Mail, Pen, MapPin, User, SquareX, Trash2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@radix-ui/react-label";
 import AppliedJobTabel from "@/components/Actor/AppliedJobTabel";
 import UpdateProfileDailog from "@/components/Actor/UpdateProfileDailog";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Popcorn, Projector } from "lucide-react";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
+import { USER_API_END_POINT } from "@/util/constant";
+import axios from "axios";
+import { toast } from "sonner";
+import { updateUserProfile } from "@/Redux/authSlice";
 
 const Profile = () => {
   useGetAppliedJobs();
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);//added
+  const [selectedPhoto, setSelectedPhoto] = useState(null);//added
+  const [newPhotos, setNewPhotos] = useState([]); // For new uploads added
   const [isImageModalOpen, setIsImageModalOpen] = useState(false); // New state to track modal visibility
   const { user } = useSelector((store) => store.auth);
+  const [existingPhotos, setExistingPhotos] = useState(user?.profile?.photos || []);
+  // Existing photos added
   const [refresh, setRefresh] = useState(false);
+  const dispatch = useDispatch();//added for multipal photo
 
   if (!user || !user.profile) {
     return (
@@ -25,6 +35,43 @@ const Profile = () => {
       </div>
     );
   }
+  const openPhotoModal = (photo) => {//added
+    setSelectedPhoto(photo);
+    setModalOpen(true);
+  };
+
+  
+  const deletePhoto = async (photoUrl) => {//added 
+    try {
+      // Optimistically update UI
+      const updatedPhotos = existingPhotos.filter((url) => url !== photoUrl);
+      setExistingPhotos(updatedPhotos);
+  
+      // Send delete request to the backend
+      const res = await axios.put(
+        `${USER_API_END_POINT}/profile/remove-photo`,
+        { photoUrl },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+  
+      if (res.status === 200) {
+        toast.success("Photo deleted successfully!");
+  
+        // Update Redux state with the new user profile
+        dispatch(updateUserProfile(res.data.user));
+        setModalOpen(false);
+  
+      } else {
+        toast.error(res.data.message || "Failed to delete photo");
+      }
+    } catch (error) {
+      console.error("Error deleting photo:", error);
+      toast.error("Failed to delete photo. Please try again.");
+    }
+  };
 
   useEffect(() => {
     console.log("Updated User Profile:", user);
@@ -204,27 +251,25 @@ const Profile = () => {
             )}
 
             {/* Display Uploaded Photos */}
-            <div className="ml-6 my-5">
-              <h2 className="font-bold text-lg mb-4">Uploaded Photos</h2>
-              <div className="flex gap-4 flex-wrap">
-                {user.profile.photos && user.profile.photos.length > 0 ? (
-                  user.profile.photos.map((photo, index) => (
-                    <div
-                      key={index}
-                      className="w-24 h-24 overflow-hidden rounded-lg shadow-lg"
-                    >
-                      <img
-                        src={photo}
-                        alt={`Uploaded Photo ${index + 1}`}
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <span className="text-gray-500">No photos uploaded yet</span>
-                )}
-              </div>
+          <div className="ml-6 my-5">
+            <h2 className="font-bold text-lg mb-4">Uploaded Photos</h2>
+            <div className="flex gap-4 flex-wrap">
+              {existingPhotos && existingPhotos.length > 0 ? (
+                existingPhotos.map((photo, index) => (
+                  <div key={index} className="w-24 h-24 overflow-hidden rounded-lg shadow-lg cursor-pointer transition transform hover:scale-110"
+                  onClick={() => openPhotoModal(photo)}>
+                    <img
+                      src={photo}
+                      alt={`Uploaded Photo ${index + 1}`}
+                      className="object-cover w-full h-full "
+                    />
+                  </div>
+                ))
+              ) : (
+                <span className="text-red-500">No photos uploaded yet</span>
+              )}
             </div>
+          </div>
           </div>
           {/* Applied Jobs Section */}
           <div className="max-w-4xl mx-auto text-black bg-white border-opacity-0 border-gray-200 rounded-2xl my-5 p-8 backdrop-blur-xl bg-white/45">
@@ -233,6 +278,27 @@ const Profile = () => {
           </div>
 
           <UpdateProfileDailog open={open} setOpen={setOpen} />
+        {/* Modal for Enlarged Image */}
+        {modalOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center p-4">
+            <div className="relative bg-white p-4 rounded-lg shadow-lg max-w-md w-full">
+              <button className="absolute top-1 right-2 text-gray-600 hover:text-red-500" onClick={() => setModalOpen(false)}>
+                <SquareX/>
+              </button>
+              <div className="w-full h-80 flex justify-center">
+                <img src={selectedPhoto} alt="Enlarged" className="w-full h-full object-contain" />
+              </div>
+              <div className="flex justify-between mt-4">
+                <Button variant="destructive" onClick={() => deletePhoto(selectedPhoto)}>
+                  <Trash2 className="mr-2" /> Delete
+                </Button>
+                {/* <Button variant="outline" onClick={replacePhoto}>
+                  <RefreshCcw className="mr-2" /> Replace
+                </Button> */}
+              </div>
+            </div>
+          </div>
+        )}
         </div>
       </div>
     </div>

@@ -25,6 +25,7 @@ export const postJob = async (req, res) => {
       expectedWorkHours,
       expectedCompletionTime,
       specialSubmissionAuditions,
+      script,
       subGenres,
       subProjectType,
       auditionDetails,
@@ -96,7 +97,7 @@ export const postJob = async (req, res) => {
         videoRequirement, // Ensure this is set correctly
       },
       company: companyId,
-      // script: scriptFile,
+      script,
       created_by: userId,
     });
 

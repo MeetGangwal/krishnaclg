@@ -28,7 +28,7 @@ const PersonalProfile = lazy(() =>
   import("./components/Actor/PersonalProfile")
 );
 const FindTalent =lazy(()=> import("./components/Director/FindTalent"));
-const FindDirector =lazy(()=> import("./components/Actor/FindDirector"));
+const Director =lazy(()=> import("./components/Actor/FindDirector"));
 const CDPersonalProfile =lazy(()=> import("./components/Director/CDPersonalProfile"));
 
 const EmailCode = lazy(()=>import("./components/Auth/EmailCode"));
@@ -42,7 +42,7 @@ const appRouter = createBrowserRouter([
   { path: "/news", element: <News /> },
   { path: "/browse", element: <Browse /> },
   { path: "/profile/", element: <Profile /> },
-  { path: "/FindDirector",element:<FindDirector />},
+  { path: "/Director",element:<Director />},
   { path: "/Director/profile/:id",element:<CDPersonalProfile />},
   {path:'/otp',element:<EmailCode/>},
   // Admin Routes
