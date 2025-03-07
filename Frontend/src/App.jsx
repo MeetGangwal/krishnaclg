@@ -27,7 +27,7 @@ const CDprofile = lazy(() => import("./components/Director/CDprofile"));
 const PersonalProfile = lazy(() =>
   import("./components/Actor/PersonalProfile")
 );
-const FindTalent =lazy(()=> import("./components/Director/FindTalent"));
+const Talent =lazy(()=> import("./components/Director/FindTalent"));
 const Director =lazy(()=> import("./components/Actor/FindDirector"));
 const CDPersonalProfile =lazy(()=> import("./components/Director/CDPersonalProfile"));
 
@@ -120,7 +120,7 @@ const appRouter = createBrowserRouter([
     ),
   },
   {
-    path: "/admin/FindTalent",
+    path: "/admin/Talent",
     element: (
       <ProtectedRoute>
         <FindTalent />

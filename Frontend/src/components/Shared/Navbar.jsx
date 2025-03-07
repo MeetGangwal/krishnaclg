@@ -75,7 +75,7 @@ const Navbar = () => {
           transition={{ delay: 0.5 }}
         >
           {user && user.role === "Director"
-            ? ["/admin", "/admin/Companies", "/admin/jobs", "/admin/FindTalent"].map((path, index) => (
+            ? ["/admin", "/admin/Companies", "/admin/jobs", "/admin/TALENT"].map((path, index) => (
                 <motion.li key={index} whileHover={{ scale: 1.1 }}>
                   <Link to={path} className={`pb-1 ${activePage === path ? "border-b-2 border-white" : "hover:border-b-2 hover:border-white"}`}>{
                     path === "/admin" ? "HOME" : path.split("/admin/")[1].toUpperCase()

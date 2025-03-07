@@ -41,14 +41,12 @@ const SignUp = () => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("password", input.password);
     formData.append("role", input.role);
-    
+
     // Append profile photo (must match backend field name)
     if (input.file) {
-      formData.append("profilePhoto", input.file); 
+      formData.append("profilePhoto", input.file);
     }
-    
-   
-    
+
     try {
       dispatch(setLoading(true));
       const res = await axios.post(`${USER_API_END_POINT}/register`, formData, {
@@ -57,10 +55,10 @@ const SignUp = () => {
         },
         withCredentials: true,
       });
-    
+
       if (res.data.success) {
-        localStorage.setItem("userEmail", input.email);//added
-        navigate("/otp");//change from login to otp
+        localStorage.setItem("userEmail", input.email); //added
+        navigate("/otp"); //change from login to otp
         toast.success(res.data.message);
       }
     } catch (error) {
@@ -69,7 +67,6 @@ const SignUp = () => {
     } finally {
       dispatch(setLoading(false));
     }
-    
   };
 
   return (
@@ -92,7 +89,6 @@ const SignUp = () => {
                   name="fullname"
                   onChange={changeEventHandler}
                   placeholder=""
-                  
                 />
               </div>
               <div className="my-2 ">
@@ -129,16 +125,17 @@ const SignUp = () => {
                 />
               </div>
 
-              <div className="flex items-center justify-between">
-                <RadioGroup className="flex items-center gap-4 my-5">
-                  <div className="flex items-center space-x-2 ">
+              <div className="flex flex-col gap-4">
+                {/* Role Selection */}
+                <RadioGroup className="flex items-center gap-4">
+                  <div className="flex items-center space-x-2">
                     <Input
                       type="radio"
                       name="role"
                       value="Actor"
                       checked={input.role === "Actor"}
                       onChange={changeEventHandler}
-                      className="cursor-pointer "
+                      className="cursor-pointer"
                     />
                     <Label htmlFor="r1">Actor</Label>
                   </div>
@@ -154,8 +151,9 @@ const SignUp = () => {
                     <Label htmlFor="r2">Director</Label>
                   </div>
                 </RadioGroup>
-                <div className="flex items-center gap-2">
-                  {/* profile */}
+
+                {/* Profile Photo Section */}
+                <div className="flex flex-col gap-2">
                   <Label>Profile</Label>
                   <Input
                     accept="image/*"
@@ -165,13 +163,17 @@ const SignUp = () => {
                   />
                 </div>
               </div>
+
               {Loading.loading ? (
                 <Button className="w-full my-4">
                   {" "}
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait
                 </Button>
               ) : (
-                <Button type="submit" className="w-full my-4 bg-transparent transition duration-300 ease-in-out transform hover:bg-white hover:scale-105 hover:shadow-lg hover:text-black" >
+                <Button
+                  type="submit"
+                  className="w-full my-4 bg-transparent transition duration-300 ease-in-out transform hover:bg-white hover:scale-105 hover:shadow-lg hover:text-black"
+                >
                   SignUp
                 </Button>
               )}
