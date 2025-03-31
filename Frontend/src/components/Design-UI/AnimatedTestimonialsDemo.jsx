@@ -35,7 +35,9 @@ const AnimatedTestimonialsDemo = () => {
 
   const testimonials = actors.map((actor) => ({
     quote: actor.profile?.bio || "No bio available.",
-    name: actor.fullname,
+    name: (
+      <span className="text-white font-semibold">{actor.fullname}</span>
+    ),
     designation: "Actor at STARCONNECT",
     src: actor.profile?.profilePhoto || "/default-profile.jpg", // Default image if none provided
   }));

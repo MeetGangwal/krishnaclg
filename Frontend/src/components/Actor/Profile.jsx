@@ -8,7 +8,7 @@ import { Label } from "@radix-ui/react-label";
 import AppliedJobTabel from "@/components/Actor/AppliedJobTabel";
 import UpdateProfileDailog from "@/components/Actor/UpdateProfileDailog";
 import { useDispatch, useSelector } from "react-redux";
-import { Popcorn, Projector } from "lucide-react";
+import { Popcorn, Projector  } from "lucide-react";
 import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 import { USER_API_END_POINT } from "@/util/constant";
 import axios from "axios";
@@ -192,6 +192,8 @@ const Profile = () => {
                 <span className="text-red-500">Gender not defined</span>
               )}
             </div>
+          
+            
             {/* Display Instagram, Facebook, and Website Links */}
             {user.profile.instagramId && (
               <div className="flex w-full font-bold max-w-sm items-center gap-5 ml-6 my-3">

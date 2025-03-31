@@ -24,6 +24,8 @@ const CDprofile = () => {
   const [open, setOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
   const [refresh, setRefresh] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false); // New state to track modal visibility
+  
 
   // Ensure user is defined before accessing properties
   if (!user || !user.profile) {
@@ -39,6 +41,16 @@ const CDprofile = () => {
     console.log("Updated User Profile:", user);
     setRefresh((prev) => !prev);
   }, [user]); // This ensures component updates when user data changes
+
+  const handleAvatarClick = () => {
+    if (user.profile.profilePhoto) {
+      setIsImageModalOpen(true); // Open the modal when the avatar is clicked
+    }
+  };
+
+  const closeImageModal = () => {
+    setIsImageModalOpen(false); // Close the modal
+  };
 
   return (
     <div className="bg-main-bg min-h-screen flex flex-col">
@@ -57,6 +69,7 @@ const CDprofile = () => {
                 <AvatarImage className="object-cover"
                   key={refresh}
                   src={user.profile.profilePhoto || ""}
+                  onClick={handleAvatarClick}
                 />
               </Avatar>
               <div>
@@ -128,22 +141,70 @@ const CDprofile = () => {
               )}
             </div>
           </div>
-          <div className="flex w-full max-w-sm items-center gap-5 ml-6">
-            <Label className="text-md font-extrabold text-white">
-              <Projector />
-            </Label>
-            {user.profile.profilePhoto ? (
-              <a
-                target="_blank"
-                href={user.profile.profilePhoto}
-                className="font-bold w-full hover:underline cursor-pointer"
-              >
-                View Profile Photo
-              </a>
-            ) : (
-              <span>NA</span>
+          {/* Display Instagram, Facebook, and Website Links */}
+          {user.profile.instagramId && (
+              <div className="flex w-full font-bold max-w-sm items-center gap-5 ml-6 my-3">
+                <span className="font-bold">Instagram: </span>
+                <a
+                  href={`https://www.instagram.com/${user.profile.instagramId}`} // Direct Instagram link
+                  className="text-cyan-300 hover:underline"
+                  target="_blank" // Open in new tab
+                  rel="noopener noreferrer" // Security measure
+                >
+                  {user.profile.instagramId}
+                </a>
+              </div>
             )}
-          </div>
+
+            {user.profile.facebookId && (
+              <div className="flex w-full font-bold max-w-sm items-center gap-5 ml-6 my-3">
+                <span className="font-bold">Facebook: </span>
+                <a
+                  href={`https://www.facebook.com/${user.profile.facebookId}`} // Direct Facebook link
+                  className="text-cyan-300 hover:underline"
+                  target="_blank" // Open in new tab
+                  rel="noopener noreferrer" // Security measure
+                >
+                  {user.profile.facebookId}
+                </a>
+              </div>
+            )}
+
+            {user.profile.webistelink && (
+              <div className="flex w-full font-bold max-w-sm items-center gap-5 ml-6 my-3">
+                <span className="font-bold">Website: </span>
+                <a
+                  href={user.profile.webistelink} // Direct Website link
+                  className="text-cyan-300 hover:underline"
+                  target="_blank" // Open in new tab
+                  rel="noopener noreferrer" // Security measure
+                >
+                  {user.profile.webistelink}
+                </a>
+              </div>
+            )}
+
+          {/* Display Modal for Profile Photo */}
+          {isImageModalOpen && user.profile.profilePhoto && (
+              <div
+                className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
+                onClick={closeImageModal}
+              >
+                <div className="relative w-96 max-h-auto overflow-hidden bg-white rounded-lg shadow-lg p-5">
+                  <img
+                    src={user.profile.profilePhoto}
+                    alt="Profile"
+                    className="w-96 h-96 object-contain transition-all duration-300 ease-in-out transform hover:scale-105"
+                  />
+                  <button
+                    className="absolute top-2 right-2 bg-white rounded-full p-2 text-gray-800 hover:text-white hover:bg-red-500 transition-all duration-200"
+                    onClick={closeImageModal}
+                  >
+                    &times;
+                  </button>
+                </div>
+              </div>
+            )}
         </div>
 
         <CDUpdateProfileDailog open={open} setOpen={setOpen} />

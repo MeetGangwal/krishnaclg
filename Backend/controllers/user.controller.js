@@ -379,9 +379,11 @@ export const updateDirectorProfile = async (req, res) => {
       return res.status(403).json({ success: false, message: "Access denied. Only directors can update this profile." });
     }
 
-    const { fullname, phoneNumber, bio, projects, awards } = req.body;
+    const { fullname, phoneNumber, bio, projects, awards ,skills ,instagramId,
+      facebookId, } = req.body;
 
     // Convert projects and awards to arrays if necessary
+    const skillsArray = skills ? skills.split(",") : null;
     const projectsArray = projects ? projects.split(",") : null;
     const awardsArray = awards ? awards.split(",") : null;
 
@@ -399,7 +401,9 @@ export const updateDirectorProfile = async (req, res) => {
     existingUser.profile.bio = bio || existingUser.profile.bio;
     existingUser.profile.projects = projectsArray || existingUser.profile.projects;
     existingUser.profile.awards = awardsArray || existingUser.profile.awards;
-
+    existingUser.profile.skills = skillsArray||null;
+    existingUser.profile.instagramId = instagramId ||null;
+    existingUser.profile.facebookId = facebookId ||null;
     await existingUser.save();
     return res.status(200).json({ success: true, message: "Director profile updated successfully", user: existingUser });
   } catch (error) {

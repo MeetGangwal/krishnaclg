@@ -20,26 +20,17 @@ const CDUpdateProfileDailog = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((store) => store.auth);
 
-  // const [input, setInput] = useState({
-  //   fullname: user?.fullname || "",
-  //   email: user?.email || "",
-  //   phoneNumber: user?.phoneNumber || "",
-  //   bio: user?.profile?.bio || "",
-  //   skills: user?.profile?.skills?.join(", ") || "",
-  //   projects: user?.profile?.projects || "",
-  //   contact: user?.profile?.contact || "",
-  //   awards: user?.profile?.awards || "",
-  //   profilePhoto: null,
-  // });
   const [input, setInput] = useState({
     fullname: user?.fullname || "",
     email: user?.email || "",
     phoneNumber: user?.phoneNumber || "",
     bio: user?.profile?.bio || "",
-    skills: user?.profile?.skills?.join(", ") || "",
+    skills: user?.profile?.skills?.map((skill) => skill),
     projects: user?.profile?.projects || "",
-    instagramId: user?.profile?.instagramId || "",
-    facebookId: user?.profile?.facebookId || "",
+    // instagramId: user?.profile?.instagramId || "",
+    instagramId: user?.instagramId,
+    // facebookId: user?.profile?.facebookId || "",
+    facebookId: user?.facebookId,
     awards: user?.profile?.awards || "",
     profilePhoto: null,
   });
@@ -65,7 +56,13 @@ const CDUpdateProfileDailog = ({ open, setOpen }) => {
     e.preventDefault();
     const formData = new FormData();
     Object.keys(input).forEach((key) => {
-      formData.append(key, input[key]);
+      if (input[key]) {
+        if (Array.isArray(input[key])) {
+          formData.append(key, input[key].join(",")); // Convert arrays to strings
+        } else {
+          formData.append(key, input[key]);
+        }
+      }
     });
 
     try {
@@ -140,7 +137,10 @@ const CDUpdateProfileDailog = ({ open, setOpen }) => {
       email: user.email || "",
       phoneNumber: user.phoneNumber || "",
       bio: user.profile?.bio || "",
-      skills: user.profile?.skills?.join(", ") || "",
+      // skills: user.profile?.skills?.join(", ") || "",
+      skills: user?.profile?.skills || [],
+      instagramId: user?.profile?.instagramId || "",
+      facebookId: user?.profile?.facebookId || "",
       projects: user.profile?.projects || "",
       contact: user.profile?.contact || "", // here reomve this and add insta and FB.
       awards: user.profile?.awards || "",
@@ -193,6 +193,7 @@ const CDUpdateProfileDailog = ({ open, setOpen }) => {
               />
               <Label>Skills</Label>
               <Input
+                id="skills"
                 name="skills"
                 value={input.skills}
                 onChange={changeEventHandler}
@@ -207,11 +208,14 @@ const CDUpdateProfileDailog = ({ open, setOpen }) => {
           )}
           {currentStep === 3 && (
             <div className="grid gap-4">
-              <Label>Instagram ID</Label>
+              <Label  htmlFor="instagramId">Instagram ID</Label>
               <Input
+                id="instagramId"
                 name="instagramId"
                 value={input.instagramId}
                 onChange={changeEventHandler}
+                placeholder="Enter Instagram Link"
+                type="url"
               />
               <Label>Facebook ID</Label>
               <Input

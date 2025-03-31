@@ -92,7 +92,7 @@ const CDPersonalProfile = () => {
               </span>
             </div>
 
-            {/* Director's Skills */}
+            {/* Director's Skills
             <div className="my-5 font-extrabold flex items-center gap-4">
               <Label className="text-black">
                 <Projector />
@@ -100,16 +100,16 @@ const CDPersonalProfile = () => {
               <div className="flex items-center gap-1">
                 {director.profile?.skills &&
                 director.profile.skills.length > 0 ? (
-                  director.profile.skills.map((item, index) => (
+                  director.profile.skills.map((skills, index) => (
                     <Badge className="text-base px-3 py-0.1" key={index}>
-                      {item}
+                      {skills}
                     </Badge>
                   ))
                 ) : (
                   <span>No skills listed</span>
                 )}
               </div>
-            </div>
+            </div> */}
 
             {/* Director's Active Projects */}
             <div className=" my-5 font-extrabold flex items-center gap-4">

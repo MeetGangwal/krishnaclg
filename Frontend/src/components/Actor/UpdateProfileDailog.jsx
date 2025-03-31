@@ -441,7 +441,7 @@ const UpdateProfileDailog = ({ open, setOpen }) => {
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4 py-2">
                   <Label htmlFor="languagesSpoken" className="text-right">
-                    Mother Toung
+                  Languages Spoken
                   </Label>
                   <Input
                     id="languagesSpoken"
