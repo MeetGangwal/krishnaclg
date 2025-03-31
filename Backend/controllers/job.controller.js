@@ -73,6 +73,22 @@ export const postJob = async (req, res) => {
       });
     }
 
+    // ✅ Fix: Ensure specialSubmissionAuditions is valid
+    if (!["Online", "Offline"].includes(specialSubmissionAuditions)) {
+      return res.status(400).json({
+        message: `Invalid audition type. Must be "Online" or "Offline".`,
+        success: false,
+      });
+    }
+
+    // ✅ Fix: Set `isOnlineAudition` based on `specialSubmissionAuditions`
+    const isOnlineAudition = specialSubmissionAuditions === "Online";
+
+    // ✅ Fix: Ensure `mediaRequirement` is always an array
+    const formattedMediaRequirement = Array.isArray(mediaRequirement)
+      ? mediaRequirement
+      : mediaRequirement.split(",").map((item) => item.trim());
+
     const job = await Job.create({
       title,
       description,
@@ -87,7 +103,7 @@ export const postJob = async (req, res) => {
       weight: { min: Number(weightMin), max: Number(weightMax) },
       skills: Array.isArray(skills) ? skills : skills.split(","),
       roleDescription,
-      mediaRequirement: Array.isArray(mediaRequirement) ? mediaRequirement : [],
+      mediaRequirement: formattedMediaRequirement,
       salaryPerDay,
       expectedWorkHours,
       expectedCompletionTime,
@@ -181,6 +197,15 @@ export const getJobById = async (req, res) => {
 export const getAdminJobs = async (req, res) => {
   try {
     const adminId = req.id;
+    const { auditionType } = req.query; // Get filter type from request
+
+    let filter = { created_by: adminId };
+
+    // Apply audition type filter if provided
+    if (auditionType) {
+      filter.isOnlineAudition = auditionType === "Online"; // true for online, false for offline
+    }
+
     const jobs = await Job.find({ created_by: adminId })
       .populate({
         path: "company",

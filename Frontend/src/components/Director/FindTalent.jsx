@@ -7,7 +7,8 @@ import { USER_API_END_POINT } from "@/util/constant"; // Import the endpoint
 import Navbar from "../Shared/Navbar";
 import { motion, useScroll } from "framer-motion"; // ✅ Keep only one import
 
-const FindTalent = () => {
+
+const Talent = () => {
   const [actors, setActors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -82,6 +83,7 @@ const FindTalent = () => {
 
       <div className="px-10 gap-2 relative z-10">
         <Navbar />
+        
         <div className="mx-20 text-2xl font-bold py-10">
           <h2 className="text-white">Talents on STARCONNECT</h2>
         </div>
@@ -139,4 +141,4 @@ const FindTalent = () => {
   );
 };
 
-export default FindTalent;
+export default Talent;

@@ -9,6 +9,7 @@ import { Mail, Contact, Projector, Loader2, Award, ProjectorIcon } from "lucide-
 import axios from "axios";
 import { USER_API_END_POINT } from "@/util/constant";
 import { toast } from "sonner";
+import BackButton from "../Shared/BackButton";
 
 const CDPersonalProfile = () => {
   const { id } = useParams();
@@ -55,6 +56,12 @@ const CDPersonalProfile = () => {
         <div className="max-w-4xl mx-auto text-black bg-white border-opacity-0 border-gray-200 rounded-2xl my-5 p-8 backdrop-blur-xl bg-white/45">
           {/* Profile Header */}
           <div className="flex justify-between">
+          <div
+            className="absolute -top-4 -left-4 w-12 h-12 bg-black flex items-center justify-center rounded-full shadow-lg"
+            style={{ clipPath: "circle(50%)" }}
+          >
+            <BackButton />
+          </div>
             <div className="flex items-center gap-3 ml-4 font-semibold">
               <Avatar className="h-16 w-16">
                 <AvatarImage src={director.profile?.profilePhoto || ""} />

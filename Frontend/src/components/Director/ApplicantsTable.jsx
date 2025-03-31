@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { APPLICATION_API_END_POINT } from "@/util/constant";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import BackButton from "../Shared/BackButton";
 
 const shortlistingStatus = ["Accepted", "Rejected"];
 
@@ -45,6 +46,7 @@ const ApplicantsTable = () => {
 
   return (
     <div>
+      
       <Table>
         <TableCaption>A list of your recent applied users</TableCaption>
         <TableHeader>

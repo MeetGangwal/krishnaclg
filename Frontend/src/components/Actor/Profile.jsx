@@ -14,6 +14,7 @@ import { USER_API_END_POINT } from "@/util/constant";
 import axios from "axios";
 import { toast } from "sonner";
 import { updateUserProfile } from "@/Redux/authSlice";
+import BackButton from "../Shared/BackButton";
 
 const Profile = () => {
   useGetAppliedJobs();
@@ -105,6 +106,12 @@ const Profile = () => {
           <div className="max-w-4xl mx-auto text-black bg-white border-opacity-0 border-gray-200 rounded-2xl my-5 p-8 backdrop-blur-xl bg-white/45">
             <div className="flex justify-between">
               <div className="flex items-center gap-3 ml-4 font-semibold">
+              <div
+            className="absolute -top-4 -left-4 w-12 h-12 bg-black flex items-center justify-center rounded-full shadow-lg"
+            style={{ clipPath: "circle(50%)" }}
+          >
+            <BackButton />
+          </div>
                 <Avatar
                   className="h-16 w-16 object-cover"
                   onClick={handleAvatarClick}

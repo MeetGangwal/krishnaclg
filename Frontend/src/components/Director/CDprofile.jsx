@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { Popcorn } from "lucide-react";
 import { Projector } from "lucide-react";
 import CDUpdateProfileDailog from "./CDupdateProfileDailog";
+import BackButton from "../Shared/BackButton";
 
 // const Skills = [
 //   "Dramatic Acting",
@@ -46,6 +47,12 @@ const CDprofile = () => {
         <div className="max-w-4xl mx-auto text-black bg-white border-opacity-0 border-gray-200 rounded-2xl my-5 p-8 backdrop-blur-xl bg-white/45">
           <div className="flex justify-between">
             <div className="flex items-center gap-3 ml-4 font-semibold">
+            <div
+            className="absolute -top-4 -left-4 w-12 h-12 bg-black flex items-center justify-center rounded-full shadow-lg"
+            style={{ clipPath: "circle(50%)" }}
+          >
+            <BackButton />
+          </div>
               <Avatar className="h-16 w-16">
                 <AvatarImage className="object-cover"
                   key={refresh}

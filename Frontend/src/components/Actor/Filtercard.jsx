@@ -1,30 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useDispatch } from "react-redux";
 import { setSearchedQuery } from "@/Redux/JobSlice";
-// import { useDispatch } from 'react-redux'
-// import { setSearchedQuery } from '@/redux/jobSlice'
 
-const fitlerData = [
+const filterData = [
   {
-    fitlerType: "Location",
-    array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai"],
-  },
-  {
-    fitlerType: "Gener",
+    filterType: "Age Range",
     array: [
-      "Movie",
-      "Web Series",
-      "Advertisment",
-      "TV Series",
-      "Theater",
-      "Commercial",
-      "Music Video",
+      "Kids (0-12 years)",
+      "Teens (13-19 years)",
+      "Young Adults (20-30 years)",
+      "Adults (31-50 years)",
+      "Seniors (51+ years)",
     ],
   },
   {
-    fitlerType: "Role Type",
+    filterType: "Gender",
+    array: ["Male", "Female"],
+  },
+  {
+    filterType: "Role Type",
     array: [
       "Lead Role",
       "Supporting Role",
@@ -35,75 +31,70 @@ const fitlerData = [
     ],
   },
   {
-    fitlerType: "Gender",
-    array: ["Male", "Female"],
-  },
-  {
-    fitlerType: "Age Range",
+    filterType: "Genre",
     array: [
-      "Kids (0-12 years)",
-      "Teens (13-19 years)",
-      "Young Adults (20-30 years)",
-      "Adults (31-50 years)",
-      "Seniors (51+ years)",
+      "Movie",
+      "Web Series",
+      "Advertisement",
+      "TV Series",
+      "Theater",
+      "Commercial",
+      "Music Video",
     ],
   },
   {
-    fitlerType: "Experience Level",
-    array: ["Beginner", "Intermediate", "Professional"],
-  },
-  {
-    fitlerType: "Language",
-    array: [
-      "All Languages",
-      "English",
-      "Hindi",
-      "Marathi",
-      "Gujarati",
-      "Tamil",
-      "Malayalam",
-      "Telugu",
-      "Kannada",
-      "Punjabi",
-      "Other",
-    ],
+    filterType: "Location",
+    array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai"],
   },
 ];
 
-const FilterCard = () => {
-    const [selectedValue, setSelectedValue] = useState('');
-    const dispatch = useDispatch();
-    const changeHandler = (value) => {
-        setSelectedValue(value);
-    }
-    useEffect(()=>{
-        dispatch(setSearchedQuery(selectedValue));
-    },[selectedValue]);
+const Filtercard = () => {
+  const [selectedFilters, setSelectedFilters] = useState({});
+  const dispatch = useDispatch();
+
+  const toggleFilter = (category, value) => {
+    setSelectedFilters((prevFilters) => {
+      const newFilters = { ...prevFilters };
+      if (!newFilters[category]) {
+        newFilters[category] = [];
+      }
+      if (newFilters[category].includes(value)) {
+        newFilters[category] = newFilters[category].filter((item) => item !== value);
+      } else {
+        newFilters[category] = [...newFilters[category], value];
+      }
+      return newFilters;
+    });
+  };
+
+  useEffect(() => {
+    dispatch(setSearchedQuery(selectedFilters));
+  }, [selectedFilters, dispatch]);
 
   return (
     <div className="w-full bg-white p-3 rounded-md text-black">
       <h1 className="font-bold text-lg">Filter Jobs</h1>
       <hr className="mt-3" />
-      <RadioGroup  value={selectedValue} onValueChange={changeHandler}>
-        {" "}
-        {/* value={selectedValue} onValueChange={changeHandler}> */}
-        {fitlerData.map((data, index) => (
-          <div>
-            <h1 className="font-bold text-lg">{data.fitlerType}</h1>
-            {data.array.map((item, idx) => {
-              const itemId = `id${index}-${idx}`;
-              return (
-                <div className="flex items-center space-x-2 my-2">
-                  <RadioGroupItem value={item} id={itemId} />
-                  <Label htmlFor={itemId}>{item}</Label>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </RadioGroup>
+      {filterData.map((data, index) => (
+        <div key={index} className="mt-3">
+          <h1 className="font-bold text-lg">{data.filterType}</h1>
+          {data.array.map((item, idx) => {
+            const itemId = `id${index}-${idx}`;
+            return (
+              <div key={itemId} className="flex items-center space-x-2 my-2">
+                <Checkbox
+                  id={itemId}
+                  checked={selectedFilters[data.filterType]?.includes(item) || false}
+                  onCheckedChange={() => toggleFilter(data.filterType, item)}
+                />
+                <Label htmlFor={itemId}>{item}</Label>
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 };
 
-export default FilterCard;
+export default Filtercard;

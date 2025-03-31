@@ -7,7 +7,7 @@ const TabsDemo =lazy(()=>import('./Design-UI/TabsDemo'));
 const CDhome = () => {
   return (
     <div className="bg-[var(--main-bg)]">
-      <Suspense>
+      <Suspense fallback={<div className="text-white text-center py-10">Loading...</div>}>
       <CDherosection />
       <AnimatedTestimonialsDemo />
       <TabsDemo />

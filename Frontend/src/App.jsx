@@ -123,7 +123,7 @@ const appRouter = createBrowserRouter([
     path: "/admin/Talent",
     element: (
       <ProtectedRoute>
-        <FindTalent />
+        <Talent />
       </ProtectedRoute>
     ),
   },

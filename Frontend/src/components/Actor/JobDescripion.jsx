@@ -8,6 +8,7 @@ import axios from "axios";
 import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/util/constant";
 import { setSingleJob } from "@/Redux/JobSlice";
 import { toast } from "sonner";
+import BackButton from "../Shared/BackButton";
 
 const JobDescription = () => {
   const { singleJob } = useSelector((store) => store.job);
@@ -156,39 +157,49 @@ const JobDescription = () => {
 
   return (
     <div className="bg-main-bg min-h-screen">
-      <div className="bg-overlay-bg min-h-screen">
-        <Navbar />
-        <div className="max-w-7xl mx-auto mt-10 rounded-2xl bg-white py-8 px-6 shadow-lg">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="font-bold text-2xl text-gray-900">
-                {singleJob?.title}
-              </h1>
-              <div className="flex flex-wrap items-center gap-3 mt-4">
-                <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
-                  {singleJob?.projectType}
-                </Badge>
-                <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
-                  {singleJob?.roleType}
-                </Badge>
-                <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
-                  ₹{singleJob?.salaryPerDay}/day
-                </Badge>
-              </div>
+    <div className="bg-overlay-bg min-h-screen">
+      <Navbar />
+  
+      {/* White Box Wrapper - Make it Relative to Keep BackButton Inside */}
+      <div className="relative max-w-7xl mx-auto mt-10 rounded-2xl bg-white py-8 px-6 shadow-lg">
+        
+        {/* 🔹 Corrected Back Button Position */}
+        <div
+          className="absolute -top-5 -left-5 w-14 h-14 bg-black flex items-center justify-center rounded-full shadow-lg"
+        >
+          <BackButton />
+        </div>
+  
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="font-bold text-2xl text-gray-900">
+              {singleJob?.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-3 mt-4">
+              <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
+                {singleJob?.projectType}
+              </Badge>
+              <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
+                {singleJob?.roleType}
+              </Badge>
+              <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
+                ₹{singleJob?.salaryPerDay}/day
+              </Badge>
             </div>
-
-            <Button
-              onClick={isApplied ? null : applyJobHandler}
-              disabled={isApplied}
-              className={`rounded-lg px-6 py-2 text-lg font-semibold transition ${
-                isApplied
-                  ? "bg-gray-300 text-gray-700 cursor-default"
-                  : "bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900"
-              }`}
-            >
-              {isApplied ? "Already Applied" : "Apply Now"}
-            </Button>
           </div>
+  
+          <Button
+            onClick={isApplied ? null : applyJobHandler}
+            disabled={isApplied}
+            className={`rounded-lg px-6 py-2 text-lg font-semibold transition ${
+              isApplied
+                ? "bg-gray-300 text-gray-700 cursor-default"
+                : "bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900"
+            }`}
+          >
+            {isApplied ? "Already Applied" : "Apply Now"}
+          </Button>
+        </div>
 
           {/* Job Description */}
           <h1 className="border-b-2 border-b-gray-300 font-bold text-lg py-4 text-black">

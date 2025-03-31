@@ -4,31 +4,55 @@ import Filtercard from "@/components/Actor/Filtercard";
 import Job from "./JobCompo";
 import { useSelector } from "react-redux";
 
-const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+// const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const Jobs = () => {
   const { allJobs, searchedQuery } = useSelector((store) => store.job); //to fetch jobs
   const [filterJobs, setFilterJobs] = useState(allJobs);
 
   useEffect(() => {
-    if (searchedQuery) {
-      const filteredJobs = allJobs.filter((job) => {
-        // Ensure that job properties are strings before calling toLowerCase
-        const title = job.title || ""; // Fallback to empty string if undefined
-        const description = job.description || ""; // Fallback to empty string if undefined
-        const location = job.location || ""; // Fallback to empty string if undefined
+    // Check if searchedQuery is empty (no filters selected)
+    const isEmptyFilter =
+      !searchedQuery || Object.values(searchedQuery).every((arr) => arr.length === 0);
   
-        return (
-          title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-          description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-          location.toLowerCase().includes(searchedQuery.toLowerCase())
-        );
-      });
-      setFilterJobs(filteredJobs);
-    } else {
-      setFilterJobs(allJobs);
+    if (isEmptyFilter) {
+      setFilterJobs(allJobs); // Show all jobs when no filters are selected
+      return;
     }
+  
+    const filteredJobs = allJobs.filter((job) => {
+      const title = job.title?.toLowerCase() || "";
+      const description = job.description?.toLowerCase() || "";
+      const location = job.location?.toLowerCase() || "";
+      const roleType = job.roleType?.toLowerCase() || "";
+      const genre = job.genre?.toLowerCase() || "";
+      const gender = job.gender?.toLowerCase() || "";
+      const ageRange = job.ageRange?.toLowerCase() || "";
+  
+      return Object.entries(searchedQuery).some(([filterType, values]) => {
+        if (!values || values.length === 0) return false;
+        const lowerCaseValues = values.map((val) => val.toLowerCase());
+  
+        switch (filterType) {
+          case "Location":
+            return lowerCaseValues.includes(location);
+          case "Role Type":
+            return lowerCaseValues.includes(roleType);
+          case "Genre":
+            return lowerCaseValues.includes(genre);
+          case "Gender":
+            return lowerCaseValues.includes(gender);
+          case "Age Range":
+            return lowerCaseValues.includes(ageRange);
+          default:
+            return false;
+        }
+      });
+    });
+  
+    setFilterJobs(filteredJobs);
   }, [allJobs, searchedQuery]);
+  
   
   return (
     <div className="bg-[var(--main-bg)]  min-h-screen text-white">
