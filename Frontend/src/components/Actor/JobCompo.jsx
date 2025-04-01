@@ -51,7 +51,7 @@ const JobCompo = ({ job, savedJobs }) => {
 
       <div>
         <h1 className="font-bold text-lg text-black my-2">{job?.title}</h1>
-        <p className="text-sm text-gray-600">{job?.description}</p>
+        <p className="text-sm text-gray-600 line-clamp-5">{job?.description}</p>
       </div>
 
       <div className="flex items-center gap-2 mt-4">

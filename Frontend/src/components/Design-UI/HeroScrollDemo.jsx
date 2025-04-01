@@ -1,6 +1,6 @@
 import React from "react";
 import { ContainerScroll } from "../ui/container-scroll-animation";
-import { motion } from "framer-motion";
+
 
 export function HeroScrollDemo() {
   return (
@@ -20,7 +20,7 @@ export function HeroScrollDemo() {
         <div className="relative flex items-center justify-center w-full min-h-full bg-gray-900 text-white mb-10">
           <div className="relative">
 
-          <img src="/Images/ActorRoadmap.png" alt="" className="" />
+          <img src="/Images/ActorRoadmap.svg" alt="" className="" />
           {/* Blackboard only, no items */}
         
         {/* Floating GIF (Outside the board) */}

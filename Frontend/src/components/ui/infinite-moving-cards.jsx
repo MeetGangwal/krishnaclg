@@ -54,7 +54,7 @@ const InfiniteMovingCards = ({
     <div
       ref={containerRef}
       className={clsx(
-        "scroller relative max-w-7xl overflow-hidden",
+        "scroller relative max-w-7xl overflow-hidden mt-5 -mb-4",
         "mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)",
         className
       )}
@@ -70,7 +70,7 @@ const InfiniteMovingCards = ({
         {items.map((item, idx) => (
           <li
             key={idx}
-            className="w-[350px] max-w-full relative rounded-2xl border border-b-0 flex-shrink-0 border-white px-8 py-6 md:w-[450px]"
+            className="w-[450px] max-w-full relative rounded-2xl border border-b-0 flex-shrink-0 border-white px-10 py-8 md:w-[500px]"
           >
             {/* Background image with opacity overlay */}
             <div

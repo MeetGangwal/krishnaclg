@@ -13,9 +13,7 @@ const InfiniteMovingCardsDemo = lazy(() =>
 );
 const VideoSection = lazy(() => import("./Design-UI/VideoSection"));
 const ScrollingTips = lazy(() => import("./Design-UI/ScrollingTips"));
-const DailyActingChallenge = lazy(() =>
-  import("./Design-UI/DailyActingChallenge")
-);
+
 
 const Home = () => {
   useGetAllJobs();
@@ -91,9 +89,10 @@ const Home = () => {
           <Suspense
             fallback={<div className="text-center text-white">Loading...</div>}
           >
-            <InfiniteMovingCardsDemo />
+            
             <VideoSection />
             <HeroScrollDemo />
+            <InfiniteMovingCardsDemo />
             <LatestJobs />
             <ScrollingTips />
             {/* <DailyActingChallenge /> */}

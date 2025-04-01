@@ -5,7 +5,7 @@ import Navbar from "@/components/Shared/Navbar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@radix-ui/react-label";
-import { Mail, Contact, Projector, Loader2, Award, ProjectorIcon } from "lucide-react";
+import { Mail, Contact, Projector, Loader2, Award, ProjectorIcon, Popcorn } from "lucide-react";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/util/constant";
 import { toast } from "sonner";
@@ -87,29 +87,28 @@ const CDPersonalProfile = () => {
               <Label className="text-black">
                 <Contact />
               </Label>
-              <span className="text-gray-700">
+              <span className="text-black">
                 {director.phoneNumber || "No number provided"}
               </span>
             </div>
 
-            {/* Director's Skills
+            {/* Director's Skills */}
             <div className="my-5 font-extrabold flex items-center gap-4">
-              <Label className="text-black">
-                <Projector />
-              </Label>
-              <div className="flex items-center gap-1">
-                {director.profile?.skills &&
-                director.profile.skills.length > 0 ? (
-                  director.profile.skills.map((skills, index) => (
-                    <Badge className="text-base px-3 py-0.1" key={index}>
-                      {skills}
-                    </Badge>
-                  ))
-                ) : (
-                  <span>No skills listed</span>
-                )}
-              </div>
-            </div> */}
+            <Label className="">
+              <Popcorn />
+            </Label>
+            <div className="flex items-center gap-1">
+              {director.profile.skills && director.profile.skills.length > 0 ? (
+                director.profile.skills.map((item, index) => (
+                  <Badge className="text-base px-3 py-0.1" key={index}>
+                    {item}
+                  </Badge>
+                ))
+              ) : (
+                <span className="text-red-950">N/A</span>
+              )}
+            </div>
+          </div>
 
             {/* Director's Active Projects */}
             <div className=" my-5 font-extrabold flex items-center gap-4">
@@ -133,6 +132,50 @@ const CDPersonalProfile = () => {
               <div>{director.profile?.awards && director.profile.awards.length >0 ?
                (<span>{director.profile?.awards} </span> ):( <span>No awards listed </span>)}</div>
             </div>
+            {/* Display Instagram, Facebook, and Website Links */}
+            <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 w-full max-w-sm">
+            {director.profile.instagramId && (
+                <>
+                  <span className="font-bold">Instagram</span>
+                  <a
+                    href={`https://www.instagram.com/${director.profile.instagramId}`}
+                    className="text-cyan-200 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    : {director.profile.instagramId}
+                  </a>
+                </>
+              )}
+
+              {director.profile.facebookId && (
+                <>
+                  <span className="font-bold">Facebook</span>
+                  <a
+                    href={`https://www.facebook.com/${director.profile.facebookId}`}
+                    className="text-cyan-200 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    : {director.profile.facebookId}
+                  </a>
+                </>
+              )}
+
+              {director.profile.webistelink && (
+                <>
+                  <span className="font-bold">Website</span>
+                  <a
+                    href={director.profile.webistelink}
+                    className="text-cyan-200 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    : {director.profile.webistelink}
+                  </a>
+                </>
+              )}
+              </div>
           </div>
         </div>
       </div>

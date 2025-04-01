@@ -223,6 +223,12 @@ const CDUpdateProfileDailog = ({ open, setOpen }) => {
                 value={input.facebookId}
                 onChange={changeEventHandler}
               />
+              <Label>Website</Label>
+              <Input
+                name="webistelink"
+                value={input.webistelink}
+                onChange={changeEventHandler}
+              />
               <Label>Awards & Achievements</Label>
               <Input
                 name="awards"

@@ -5,28 +5,22 @@ import { ChevronLeft, ChevronRight } from "lucide-react"; // Lucide icons
 
 const videos = [
   {
-    title: "Video 1",
-    url: "your-video-url-1.mp4",
+    title: "TIPS ON ACTING | McConaughey Takes",
+    url: "https://www.youtube.com/embed/fWIB_Iymgg0",
   },
   {
-    title: "Video 2",
-    url: "your-video-url-2.mp4",
+    title: "HOW TO PRODUCE REAL EMOTION ",
+    url: "https://www.youtube.com/embed/A-PDoo2BXLQ",
   },
   {
-    title: "Video 3",
-    url: "your-video-url-3.mp4",
+    title: "Bryan Cranston’s Advice To Aspiring Actors ",
+    url: "https://www.youtube.com/embed/iC5Ef7smWKs",
   },
-  // Add more videos as needed
 ];
 
 const VideoSection = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const navigate = useNavigate();
-
-  // Button to navigate to Find Directors page
-  const handleNavigate = () => {
-    navigate("/FindDirector");
-  };
 
   // Handle the next video
   const handleNext = () => {
@@ -43,8 +37,8 @@ const VideoSection = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen transition-all bg-inherit">
-      <div className="max-w-3xl w-full p-6 md:p-8 bg-gray-950 shadow-lg rounded-2xl border border-white-700 text-white font-semibold relative transition-opacity duration-1000">
+    <div className="flex justify-center items-center min-h-screen transition-all ">
+      <div className="max-w-5xl w-full p-6 md:p-8 bg-gray-900 shadow-lg rounded-2xl border border-gray-700 text-white mt-44 font-semibold relative">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold">Enjoy These Videos!</h2>
           <p className="mt-3 text-lg text-gray-300">
@@ -57,56 +51,52 @@ const VideoSection = () => {
             <Button
               variant="outline"
               onClick={handlePrev}
-              className="flex justify-center items-center absolute left-0 z-10 bg-transparent"
+              className="absolute left-0 z-10 bg-transparent"
+              disabled={currentVideoIndex === 0}
             >
               <ChevronLeft size={24} />
             </Button>
 
-            {/* Video player */}
-            <div className="w-full max-w-[700px]">
-              <h3 className="text-2xl font-semibold text-gray-200">
+            {/* YouTube Iframe Player */}
+            <div className="w-full max-w-4xl">
+              <h3 className="text-2xl font-semibold text-gray-200 mb-3">
                 {videos[currentVideoIndex].title}
               </h3>
-              <video width="100%" controls>
-                <source
-                  src={videos[currentVideoIndex].url}
-                  type="video/mp4"
-                />
-                Your browser does not support the video tag.
-              </video>
+              <iframe
+                width="100%"
+                height="400"
+                src={videos[currentVideoIndex].url}
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="rounded-lg"
+              ></iframe>
             </div>
 
             {/* Next Button */}
             <Button
               variant="outline"
               onClick={handleNext}
-              className="flex justify-center items-center absolute right-0 z-10 bg-transparent"
+              className="absolute right-0 z-10 bg-transparent"
+              disabled={currentVideoIndex === videos.length - 1}
             >
               <ChevronRight size={24} />
             </Button>
-
-            {/* Dots for video index */}
-            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-              {videos.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-3 h-3 rounded-full ${
-                    currentVideoIndex === index
-                      ? "bg-blue-500"
-                      : "bg-gray-400"
-                  }`}
-                />
-              ))}
-            </div>
           </div>
 
-          {/* Navigation Button */}
-          {/* <button
-            onClick={handleNavigate}
-            className="mt-6 px-6 py-3 bg-[#6A38C2] hover:bg-[#9365E5] text-white font-semibold rounded-lg transition-all duration-300 ease-in-out shadow-md"
-          >
-            View Directors
-          </button> */}
+          {/* Video Indicators */}
+          <div className="mt-4 flex justify-center space-x-2">
+            {videos.map((_, index) => (
+              <div
+                key={index}
+                className={`w-3 h-3 rounded-full ${
+                  currentVideoIndex === index
+                    ? "bg-blue-500"
+                    : "bg-gray-400"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

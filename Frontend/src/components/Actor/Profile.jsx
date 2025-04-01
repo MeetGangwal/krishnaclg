@@ -194,7 +194,7 @@ const Profile = () => {
             </div>
           
             
-            {/* Display Instagram, Facebook, and Website Links */}
+            {/* Display Instagram, Facebook, and Website Links
             {user.profile.instagramId && (
               <div className="flex w-full font-bold max-w-sm items-center gap-5 ml-6 my-3">
                 <span className="font-bold">Instagram: </span>
@@ -235,7 +235,7 @@ const Profile = () => {
                   {user.profile.webistelink}
                 </a>
               </div>
-            )}
+            )} */}
 
             {/* Display Modal for Profile Photo */}
             {isImageModalOpen && user.profile.profilePhoto && (

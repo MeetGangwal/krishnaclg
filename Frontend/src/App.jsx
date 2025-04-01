@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import AuditionVideos from "./components/Director/AuditionVideos";
+import ActorList from "./components/Actor/ActorList";
+
 
 // Lazy load pages
 const Login = lazy(() => import("./components/Auth/Login"));
@@ -32,6 +34,7 @@ const Director =lazy(()=> import("./components/Actor/FindDirector"));
 const CDPersonalProfile =lazy(()=> import("./components/Director/CDPersonalProfile"));
 
 const EmailCode = lazy(()=>import("./components/Auth/EmailCode"));
+const LISTACTOR =lazy (()=>import("./components/Actor/ActorList"))
 
 const appRouter = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -45,6 +48,9 @@ const appRouter = createBrowserRouter([
   { path: "/Director",element:<Director />},
   { path: "/Director/profile/:id",element:<CDPersonalProfile />},
   {path:'/otp',element:<EmailCode/>},
+// talents on actors page
+  {path: "/Actors",element:<LISTACTOR />},
+  
   // Admin Routes
   {
     path: "/admin",

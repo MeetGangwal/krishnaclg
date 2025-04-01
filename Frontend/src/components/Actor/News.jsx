@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Shared/Navbar";
 import axios from "axios";
 import { motion, useScroll } from "framer-motion";
+import BackButton from "../Shared/BackButton";
 
 const News = () => {
   const [newsArray, setNewsArray] = useState([]);
@@ -75,9 +76,11 @@ const News = () => {
     style={{ backgroundImage:`url(${backgroundImages[bgIndex]})`,
     transition: "background-image 0.5s ease-in-out", }} // Ensure the image path is correct
   >
-    <div className="absolute inset-0 bg-black opacity-50"></div>
-    <div className="text-white relative z-10">
-      <Navbar />
+    <div className="absolute inset-0 bg-black opacity-50 "></div>
+    <div className="text-white relative z-10 max-w-6xl mx-auto">
+    <h1 className="text-4xl font-bold mb-6 flex items-center gap-4 px-6 py-10">
+          <BackButton /> Entertainment Industry News
+        </h1>
       <div className="max-w-7xl mx-auto p-10">
         <h1 className="text-3xl font-bold mb-3">Top News</h1>
   
