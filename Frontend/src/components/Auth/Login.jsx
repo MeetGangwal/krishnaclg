@@ -13,6 +13,7 @@ import { setLoading, setUser } from "@/Redux/authSlice";
 import { Loader2 } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import BackButton from "../Shared/BackButton";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -97,7 +98,7 @@ const Login = () => {
         if (user.role === "Director") {
           navigate("/admin"); // Change this to your actual CD-Home route
         } else {
-          navigate("/");
+          navigate("/Home");
         }
   
         toast.success(res.data.message);
@@ -116,11 +117,13 @@ const Login = () => {
       <div className="min-h-screen">
         <div className="mt-10">
                   {/* <Navbar /> */}
+                  
         <div className="flex items-center justify-center  mx-auto mt-36  backdrop- text-black">
+          
           <form
             onSubmit={submitHandler}
             className="w-1/2 max-w-lg border border-white/30 rounded-xl p-6 bg-white/10 backdrop-blur-lg shadow-lg"
-          >
+          ><BackButton />
             <h1 className="font-bold text-xl mb-5 text-center">Login </h1>
 
             <div className="my-2 ">

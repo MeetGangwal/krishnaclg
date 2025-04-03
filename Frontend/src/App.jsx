@@ -34,10 +34,12 @@ const Director =lazy(()=> import("./components/Actor/FindDirector"));
 const CDPersonalProfile =lazy(()=> import("./components/Director/CDPersonalProfile"));
 
 const EmailCode = lazy(()=>import("./components/Auth/EmailCode"));
-const LISTACTOR =lazy (()=>import("./components/Actor/ActorList"))
+const LISTACTOR =lazy (()=>import("./components/Actor/ActorList"));
+const MAINPAGE =lazy(()=>import("./components/Shared/LandingPage"));
 
 const appRouter = createBrowserRouter([
-  { path: "/", element: <Home /> },
+  {path: "/",element: <MAINPAGE />},
+  { path: "/Home", element: <Home /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
   { path: "/jobs", element: <Jobs /> },

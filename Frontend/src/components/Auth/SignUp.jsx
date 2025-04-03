@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "@/Redux/authSlice";
 import { Loader2, Store } from "lucide-react";
+import BackButton from "../Shared/BackButton";
 
 const SignUp = () => {
   const location = useLocation();
@@ -78,7 +79,7 @@ const SignUp = () => {
             <form
               onSubmit={submitHandler}
               className="w-1/2 max-w-lg border border-white/30 rounded-xl p-6 bg-white/10 backdrop-blur-lg shadow-lg "
-            >
+            ><BackButton />
               <h1 className="font-bold text-xl text-center mb-5">SignUp</h1>
               <div className="my-2 ">
                 <Label>Full Name</Label>
