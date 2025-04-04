@@ -1,92 +1,10 @@
-// import React, { useEffect, useState } from "react";
-// import Navbar from "@/components/Shared/Navbar";
-// import Filtercard from "@/components/Actor/Filtercard";
-// import Job from "./JobCompo";
-// import { useSelector } from "react-redux";
-
-// // const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-// const Jobs = () => {
-//   const { allJobs, searchedQuery } = useSelector((store) => store.job); //to fetch jobs
-//   const [filterJobs, setFilterJobs] = useState(allJobs);
-
-//   useEffect(() => {
-//     // Check if searchedQuery is empty (no filters selected)
-//     const isEmptyFilter =
-//       !searchedQuery || Object.values(searchedQuery).every((arr) => arr.length === 0);
-  
-//     if (isEmptyFilter) {
-//       setFilterJobs(allJobs); // Show all jobs when no filters are selected
-//       return;
-//     }
-  
-//     const filteredJobs = allJobs.filter((job) => {
-//       const title = job.title?.toLowerCase() || "";
-//       const description = job.description?.toLowerCase() || "";
-//       const location = job.location?.toLowerCase() || "";
-//       const roleType = job.roleType?.toLowerCase() || "";
-//       const genre = job.genre?.toLowerCase() || "";
-//       const gender = job.gender?.toLowerCase() || "";
-//       const ageRange = job.ageRange?.toLowerCase() || "";
-  
-//       return Object.entries(searchedQuery).some(([filterType, values]) => {
-//         if (!values || values.length === 0) return false;
-//         const lowerCaseValues = values.map((val) => val.toLowerCase());
-  
-//         switch (filterType) {
-//           case "Location":
-//             return lowerCaseValues.includes(location);
-//           case "Role Type":
-//             return lowerCaseValues.includes(roleType);
-//           case "Genre":
-//             return lowerCaseValues.includes(genre);
-//           case "Gender":
-//             return lowerCaseValues.includes(gender);
-//           case "Age Range":
-//             return lowerCaseValues.includes(ageRange);
-//           default:
-//             return false;
-//         }
-//       });
-//     });
-  
-//     setFilterJobs(filteredJobs);
-//   }, [allJobs, searchedQuery]);
-  
-  
-//   return (
-//     <div className="min-h-screen bg-black text-white">
-//   <Navbar />
-//   <div className="max-w-7xl mx-auto mt-5 min-h-screen"> {/* Ensuring min height */}
-//     <div className="flex gap-5">
-//       <div className="w-20%">
-//         <Filtercard />
-//       </div>
-//       <div className="flex-1 min-h-screen">
-//         {filterJobs.length <= 0 ? (
-//           <span>Job not found</span>
-//         ) : (
-//           <div className="grid grid-cols-3 gap-4">
-//             {filterJobs.map((job) => (
-//               <Job job={job} /> // Ensure Job component also has bg-black
-//             ))}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   </div>
-// </div>
-
-//   );
-// };
-
-// export default Jobs;
 import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Shared/Navbar";
 import Filtercard from "@/components/Actor/Filtercard";
 import Job from "./JobCompo";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
+import { HoverEffect } from "../ui/card-hover-effect";
 
 const Jobs = () => {
   const { allJobs, searchedQuery } = useSelector((store) => store.job);
@@ -95,7 +13,9 @@ const Jobs = () => {
   const jobsPerPage = 6;
 
   useEffect(() => {
-    const isEmptyFilter = !searchedQuery || Object.values(searchedQuery).every((arr) => arr.length === 0);
+    const isEmptyFilter =
+      !searchedQuery ||
+      Object.values(searchedQuery).every((arr) => arr.length === 0);
 
     if (isEmptyFilter) {
       setFilterJobs(allJobs);
@@ -152,16 +72,26 @@ const Jobs = () => {
               <span>Job not found</span>
             ) : (
               <>
-                <div className="grid grid-cols-3 gap-4">
+                {/* <div className="grid grid-cols-3 gap-4">
                   {currentJobs.map((job) => (
                     <Job key={job._id} job={job} />
                   ))}
-                </div>
+                </div> */}
+                <HoverEffect
+                  items={currentJobs.map((job) => ({
+                    title: job.title,
+                    description: job.description,
+                    link: `/description/${job._id}`, // This is used for the motion link
+                    component: <Job key={job._id} job={job} />, // We'll render this inside the card
+                  }))}
+                />
 
                 {/* Pagination Controls */}
                 <div className="flex justify-center mt-4">
                   <Button
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
                     disabled={currentPage === 1}
                     variant="outline"
                     className="mx-2 text-black"

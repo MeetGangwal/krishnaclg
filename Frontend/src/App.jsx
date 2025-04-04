@@ -1,8 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import AuditionVideos from "./components/Director/AuditionVideos";
-import ActorList from "./components/Actor/ActorList";
-
 
 // Lazy load pages
 const Login = lazy(() => import("./components/Auth/Login"));
@@ -18,27 +16,25 @@ const CompanySetup = lazy(() => import("./components/Director/CompanySetup"));
 const AdminJobs = lazy(() => import("./components/Director/AdminJobs"));
 const PostJob = lazy(() => import("./components/Director/PostJob"));
 const Applicants = lazy(() => import("./components/Director/Applicants"));
-const CompaniesCreate = lazy(() =>
-  import("./components/Director/CompaniesCreate")
-);
-const ProtectedRoute = lazy(() =>
-  import("./components/Director/ProtectedRoute")
-);
+const CompaniesCreate = lazy(() =>import("./components/Director/CompaniesCreate"));
+const ProtectedRoute = lazy(() =>import("./components/Director/ProtectedRoute"));
 const CDhome = lazy(() => import("./components/CDhome"));
 const CDprofile = lazy(() => import("./components/Director/CDprofile"));
-const PersonalProfile = lazy(() =>
-  import("./components/Actor/PersonalProfile")
-);
-const Talent =lazy(()=> import("./components/Director/FindTalent"));
-const Director =lazy(()=> import("./components/Actor/FindDirector"));
-const CDPersonalProfile =lazy(()=> import("./components/Director/CDPersonalProfile"));
+const PersonalProfile = lazy(() =>import("./components/Actor/PersonalProfile"));
+const Talent = lazy(() => import("./components/Director/FindTalent"));
+const Director = lazy(() => import("./components/Actor/FindDirector"));
+const CDPersonalProfile = lazy(() =>import("./components/Director/CDPersonalProfile"));
+const EmailCode = lazy(() => import("./components/Auth/EmailCode"));
+const LISTACTOR = lazy(() => import("./components/Actor/ActorList"));
+const MAINPAGE = lazy(() => import("./components/Shared/LandingPage"));
+const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
 
-const EmailCode = lazy(()=>import("./components/Auth/EmailCode"));
-const LISTACTOR =lazy (()=>import("./components/Actor/ActorList"));
-const MAINPAGE =lazy(()=>import("./components/Shared/LandingPage"));
+
+
+
 
 const appRouter = createBrowserRouter([
-  {path: "/",element: <MAINPAGE />},
+  { path: "/", element: <MAINPAGE /> },
   { path: "/Home", element: <Home /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
@@ -47,13 +43,21 @@ const appRouter = createBrowserRouter([
   { path: "/news", element: <News /> },
   { path: "/browse", element: <Browse /> },
   { path: "/profile/", element: <Profile /> },
-  { path: "/Director",element:<Director />},
-  { path: "/Director/profile/:id",element:<CDPersonalProfile />},
-  {path:'/otp',element:<EmailCode/>},
-// talents on actors page
-  {path: "/Actors",element:<LISTACTOR />},
-  
+  { path: "/Director", element: <Director /> },
+  { path: "/Director/profile/:id", element: <CDPersonalProfile /> },
+  { path: "/otp", element: <EmailCode /> },
+  // talents on actors page
+  { path: "/Actors", element: <LISTACTOR /> },
+
   // Admin Routes
+  {
+    path: "/admin/dashboard",
+    element: (
+      <ProtectedRoute>
+        <AdminDashboard />
+      </ProtectedRoute>
+    ),
+  },
   {
     path: "/admin",
     element: (
@@ -66,7 +70,7 @@ const appRouter = createBrowserRouter([
     path: "/actor/profile/:id",
     element: (
       // <ProtectedRoute>
-        <PersonalProfile />
+      <PersonalProfile />
       // </ProtectedRoute>
     ),
   },
@@ -137,12 +141,12 @@ const appRouter = createBrowserRouter([
   },
   {
     path: `/Director/auditions/:JobId`,
-    element:(
+    element: (
       <ProtectedRoute>
         <AuditionVideos />
       </ProtectedRoute>
-    )
-  }
+    ),
+  },
 ]);
 
 function App() {

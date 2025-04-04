@@ -4,7 +4,7 @@ import { Card, CardContent, CardTitle, CardDescription } from "../ui/card";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/util/constant"; // Import the endpoint
 import Navbar from "../Shared/Navbar";
-import { motion, useScroll } from "framer-motion"; // ✅ Keep only one import
+import { motion, useScroll, AnimatePresence  } from "framer-motion"; // ✅ Keep only one import
 
 const FindDirector = () => {
   const [directors, setDirectors] = useState([]);
@@ -12,7 +12,7 @@ const FindDirector = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
-
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const backgroundImages = [
     "/DesignItems/ABG.jfif",
     "/DesignItems/POSTER.jfif",
@@ -76,12 +76,10 @@ const FindDirector = () => {
         backgroundImage: `url(${backgroundImages[bgIndex]})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        transition:"background-image 0.5s ease-in-out",
+        // transition:"background-image 0.5s ease-in-out",
       }}
     >
-      <div className="absolute inset-0 bg-black opacity-50"></div>
-      
-
+      <div className="absolute inset-0 bg-black opacity-80"></div>
       <div className=" px-10 gap-2 relative z-10">
         <Navbar />
         <div className="mx-20 text-2xl font-bold py-10">
@@ -91,21 +89,36 @@ const FindDirector = () => {
 
         {/* Grid Layout for Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 ">
-          {directors.map((director) => (
+          {directors.map((director , index) => (
             <motion.div
-              key={director._id} // ✅ Added key to avoid React warnings
-              className="relative text-white shadow-xl  overflow-hidden rounded-3xl p-6 bg-[#ffffff33]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url('/DesignItems/cardbg3.jpg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              whileHover={{ scale: 1.05 }} // ✅ Smooth hover effect
-            >
+            key={director._id}
+            className="relative text-white overflow-hidden rounded-xl "
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <AnimatePresence>
+              {hoveredIndex === index && (
+                <motion.span
+                  className="absolute inset-0 bg-white/10   dark:bg-white/10 rounded-xl z-0 backdrop-blur-md shadow-xl"
+                  layoutId="hoverBackground"
+                  initial={{ opacity: 0, scale: 1 }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1.03,
+                    transition: { duration: 0.3 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 1,
+                    transition: { duration: 0.2, delay: 0.1 },
+                  }}
+                />
+              )}
+            </AnimatePresence>
+            <div className="relative z-10 p-4 shadow-xl rounded-xl">
               <div className="flex justify-center">
                 <img
                   src={director.profile?.profilePhoto || "default-profile.jpg"}
@@ -113,7 +126,6 @@ const FindDirector = () => {
                   className="w-32 h-32 object-cover rounded-full mt-5 shadow-[0_0_20px_rgba(255,255,255,0.0)]"
                 />
               </div>
-
               <CardContent className="text-center">
                 <CardTitle className="text-xl font-semibold pt-2">
                   {director.fullname}
@@ -134,6 +146,9 @@ const FindDirector = () => {
                   View Profile
                 </motion.button>
               </CardContent>
+            </div>
+
+              
             </motion.div>
           ))}
         </div>

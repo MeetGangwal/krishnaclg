@@ -23,7 +23,7 @@ const JobCompo = ({ job, savedJobs }) => {
   };
 
   return (
-    <div className="p-5 rounded-md shadow-xl bg-white border border-gray-100">
+    <div className="p-4 rounded-3xl bg-white h-full w-full">
       <div className="flex items-center justify-between">
         <p className="text-sm text-gray-500">
           {job?.createdAt
@@ -70,7 +70,7 @@ const JobCompo = ({ job, savedJobs }) => {
         <Button
           onClick={() => navigate(`/description/${job?._id}`)}
           variant="outline"
-          className="bg-black"
+          className=""
         >
           Details
         </Button>
@@ -81,3 +81,51 @@ const JobCompo = ({ job, savedJobs }) => {
 };
 
 export default JobCompo;
+
+
+ {/* Grid Layout for Actor Cards */}
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+          {actors.map((actor) => (
+            <motion.div
+              key={actor._id}
+              className="relative text-white shadow-xl border border-white overflow-hidden rounded-xl"
+              style={{
+                backgroundImage:
+                  "radial-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url('/DesignItems/cardbg3.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="flex justify-center">
+                <img
+                  src={actor.profile?.profilePhoto || "default-profile.jpg"}
+                  alt={actor.fullname}
+                  className="w-32 h-32 object-cover rounded-full mt-5 shadow-[0_0_100px_rgba(255,255,255,0.3)]"
+                />
+              </div>
+              <CardContent className="text-center">
+                <CardTitle className="text-xl font-semibold pt-2">
+                  {actor.fullname}
+                </CardTitle>
+                <CardDescription className="text-white mt-2">
+                  {actor.profile?.skills?.join(", ") || "No skills listed"}
+                </CardDescription>
+                <motion.button
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.85 }}
+                  transition={{ duration: 0.1 }}
+                  onClick={() => handleViewProfile(actor._id)}
+                  className="mt-4 px-6 py-2 bg-[#48cfcb8e] text-white font-semibold rounded-full transition duration-200 hover:bg-[#9173f591]"
+                >
+                  View Profile
+                </motion.button>
+              </CardContent>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.div> */}

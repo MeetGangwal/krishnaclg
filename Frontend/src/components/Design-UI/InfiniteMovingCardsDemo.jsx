@@ -21,7 +21,7 @@ const testimonials = [
     quote: "The best acting is instinctive. It's not intellectual, it's not mechanical, it's instinctive. 🏆",
     name: "Marlon Brando",
     title: "Legendary Actor",
-    imageUrl:"/Actors/Rapha.jpg"
+    imageUrl:"/Actors/MarlonBrando.jpg"
   },
   {
     quote: "Dreams are not the things you see in sleep, dreams are things which do not let you sleep. 🌟",
@@ -33,13 +33,13 @@ const testimonials = [
     quote: "Work hard in silence, let success make the noise. 🎬",
     name: "Ranbir Kapoor",
     title: "Indian Actor",
-    imageUrl:"/Actors/Ranbir.jfif"
+    imageUrl:"/Actors/Ranbir.jpg"
   },
   {
     quote: "A director is the captain of the ship, but an actor is its soul. 🚢",
     name: "Christopher Nolan",
     title: "Hollywood Director",
-    imageUrl:"/Actors/christophernolan.jfif"
+    imageUrl:"/Actors/christophernolan.jpg"
   },
 ];
 

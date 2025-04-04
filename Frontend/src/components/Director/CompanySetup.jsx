@@ -41,6 +41,11 @@ const CompanySetup = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault(); // for not to refreash the hole page 
+            // Validation check for empty fields
+    if (!input.name || !input.description || !input.website || !input.location || !input.file) {
+        toast.error("Please fill in all fields before submitting.");
+        return;
+    }
         const formData = new FormData();
         formData.append("name", input.name);
         formData.append("description", input.description);
