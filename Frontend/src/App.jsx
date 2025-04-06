@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import AuditionVideos from "./components/Director/AuditionVideos";
+import AdminPanel from "./components/AdminPanel";//added for admin panel
 
 // Lazy load pages
 const Login = lazy(() => import("./components/Auth/Login"));
@@ -48,6 +49,17 @@ const appRouter = createBrowserRouter([
   // talents on actors page
   { path: "/Actors", element: <LISTACTOR /> },
 
+  // adminpanel
+  {
+    path: "/adminpanel",
+    element: (
+      <ProtectedRoute role="Admin">
+        {" "}
+        {/* Ensure role-based protection */}
+        <AdminPanel />
+      </ProtectedRoute>
+    ),
+  },
   // Admin Routes
   {
     path: "/admin",
