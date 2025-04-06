@@ -5,13 +5,15 @@ import { User } from "../Models/User.model.js "
 import { Job } from "../Models/job.model.js";
 import cloudinary from "../utils/cloudinary.js";
 import getDataUri from "../utils/datauri.js";
-import {StatusEmail} from "../middlewares/StatusEmail.js"
+import { StatusEmail } from "../middlewares/StatusEmail.js"
 import nodemailer from "nodemailer"
 
 export const applyJob = async (req, res) => {
   try {
     const userId = req.id;
     const jobId = req.params.id;
+    const urlvideo = req.body.urlvideo; // Extract audition video URL
+    console.log("Extracted URL:", urlvideo); // Debugging line
     if (!jobId) {
       return res.status(400).json({
         message: "Job id is required.",
@@ -38,9 +40,19 @@ export const applyJob = async (req, res) => {
       });
     }
 
+    // If job is online and urlvideo is missing
+    if (job.projectType === "Online" && !urlvideo) {
+      return res.status(400).json({
+        message: "Audition video URL is required for online jobs.",
+        success: false,
+      });
+    }
+
     const newApplication = await Application.create({
       job: jobId,
       applicant: userId,
+      urlvideo: urlvideo || null, // Store URL if available  // Store the audition video URL
+
     });
 
     job.applications.push(newApplication._id);
@@ -100,10 +112,17 @@ export const getApplicants = async (req, res) => {
         success: false,
       });
     }
+    // Ensure `urlvideo` is included in the response
+    const applicationsWithVideo = job.applications.map(app => ({
+      ...app.toObject(),
+      urlvideo: app.urlvideo || null, // Ensure it’s included
+    }));
+
     return res.status(200).json({
-      job,
+      job: { ...job.toObject(), applications: applicationsWithVideo },
       success: true,
     });
+    
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error." });
@@ -132,7 +151,7 @@ export const updateStatus = async (req, res) => {
 
     application.status = status.toLowerCase();
     await application.save();
-    StatusEmail(application.applicant.email,status); // Send OTP
+    StatusEmail(application.applicant.email, status); // Send OTP
 
     return res.status(200).json({
       message: "Status updated successfully & email sent..",

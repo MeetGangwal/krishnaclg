@@ -10,13 +10,17 @@ import axios from "axios";
 import { USER_API_END_POINT } from "@/util/constant";
 import { toast } from "sonner";
 import BackButton from "../Shared/BackButton";
+import { useSelector } from "react-redux";//added for no.of post by director 
+import { useNavigate } from "react-router-dom";
 
 const CDPersonalProfile = () => {
   const { id } = useParams();
   const [director, setDirector] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { allAdminJobs } = useSelector((state) => state.job);//added for no.of post by director 
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
+  const jobsPosted = allAdminJobs?.filter(job => job?.created_by?._id === id || job?.created_by === id);//added for no.of post by director 
   useEffect(() => {
     if (id) {
       axios
@@ -131,6 +135,20 @@ const CDPersonalProfile = () => {
               </Label>
               <div>{director.profile?.awards && director.profile.awards.length >0 ?
                (<span>{director.profile?.awards} </span> ):( <span>No awards listed </span>)}</div>
+            </div>
+            {/*added for no.of post by director  */}
+            <div className="my-5 font-extrabold flex items-center gap-4 cursor-pointer hover:underline text-blue-600" 
+                  onClick={() => navigate(`/director-jobs/${id}`)}>
+              <Label className="text-black">
+                <ProjectorIcon />
+              </Label>
+              <div>
+                {jobsPosted?.length > 0 ? (
+                  <span>{jobsPosted.length} Job{jobsPosted.length > 1 ? 's' : ''} Posted</span>
+                ) : (
+                  <span>No Jobs Posted</span>
+                )}
+              </div>
             </div>
             {/* Display Instagram, Facebook, and Website Links */}
             <div className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 w-full max-w-sm">

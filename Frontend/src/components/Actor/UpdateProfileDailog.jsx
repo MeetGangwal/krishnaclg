@@ -329,7 +329,8 @@ const UpdateProfileDailog = ({ open, setOpen }) => {
                   <Input
                     id="age"
                     name="age"
-                    type="text"
+                    type="number"//added 
+                    min="1"//added
                     value={input.age}
                     onChange={changeEventHandler}
                     className="col-span-3"
@@ -401,16 +402,16 @@ const UpdateProfileDailog = ({ open, setOpen }) => {
                 {/* Physical Attributes Fields */}
                 <div className="grid grid-cols-4 items-center gap-4 py-2">
                   <Label htmlFor="height" className="text-right">
-                    Height in feet
+                    Height in Centimeter
                   </Label>
                   <Input
                     id="height"
                     name="height"
-                    type="text"
+                    type="number"//added
+                    min="20"//added
                     value={input.height}
                     onChange={changeEventHandler}
                     className="col-span-3"
-                    placeholder="5'7"
                   />
                 </div>
                 <div className="grid grid-cols-4 items-center gap-4 py-2">
@@ -420,7 +421,8 @@ const UpdateProfileDailog = ({ open, setOpen }) => {
                   <Input
                     id="weight"
                     name="weight"
-                    type="text"
+                    type="number"//added
+                    min="1"//added
                     value={input.weight}
                     onChange={changeEventHandler}
                     className="col-span-3"

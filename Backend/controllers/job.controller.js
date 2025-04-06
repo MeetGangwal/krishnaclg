@@ -83,7 +83,7 @@ export const postJob = async (req, res) => {
     }
 
     // ✅ Fix: Set `isOnlineAudition` based on `specialSubmissionAuditions`
-    const isOnlineAudition = specialSubmissionAuditions === "Online";
+    
 
     // ✅ Fix: Ensure `mediaRequirement` is always an array
     const formattedMediaRequirement = Array.isArray(mediaRequirement)

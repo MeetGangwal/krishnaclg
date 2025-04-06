@@ -27,7 +27,7 @@ const CDPersonalProfile = lazy(() =>import("./components/Director/CDPersonalProf
 const EmailCode = lazy(() => import("./components/Auth/EmailCode"));
 const LISTACTOR = lazy(() => import("./components/Actor/ActorList"));
 const MAINPAGE = lazy(() => import("./components/Shared/LandingPage"));
-
+const DirectorJobs = lazy(() => import("./components/Actor/DirectorJob"));//added for view personal director jobs
 
 
 
@@ -40,6 +40,7 @@ const appRouter = createBrowserRouter([
   { path: "/description/:id", element: <JobDescription /> },
   { path: "/news", element: <News /> },
   { path: "/browse", element: <Browse /> },
+  { path: "/director-jobs/:id", element: <DirectorJobs /> },//added for view personal director jobs
   { path: "/profile/", element: <Profile /> },
   { path: "/Director", element: <Director /> },
   { path: "/Director/profile/:id", element: <CDPersonalProfile /> },

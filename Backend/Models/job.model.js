@@ -25,7 +25,7 @@ const jobSchema = new mongoose.Schema({
     },
     subGenres: [{
         type: String,
-        enum: ["DRAMA", "COMEDY", "SCIENCE FICTION", "FANTASY", "HORROR", "THRILLER", "WESTERN", "MUSICAL"]
+        enum: ["DRAMA", "COMEDY", "SCIENCE FICTION", "FANTASY", "HORROR", "THRILLER", "WESTERN", "MUSICAL","ACTION","ADVENTURE","ROMANCE","MYSTERY","CRIME","HISTORICAL","SUPERHERO","ANIMATION","DOCUMENTARY"],
     }],    
     roleType: {
         type: String,
@@ -46,8 +46,8 @@ const jobSchema = new mongoose.Schema({
         max: { type: Number, required: true }
     },
     height: {
-        min: { type: String, required: true }, // Format: "5'6" (Feet'Inches)" 
-        max: { type: String, required: true }
+        min: { type: Number, required: true }, // Format: "5'6" (Feet'Inches)" 
+        max: { type: Number, required: true }
     },
     weight: {
         min: { type: Number, required: true },

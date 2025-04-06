@@ -23,30 +23,46 @@ const Jobs = () => {
     }
 
     const filteredJobs = allJobs.filter((job) => {
-      const location = job.location?.toLowerCase() || "";
       const roleType = job.roleType?.toLowerCase() || "";
-      const genre = job.genre?.toLowerCase() || "";
-      const gender = job.gender?.toLowerCase() || "";
-      const ageRange = job.ageRange?.toLowerCase() || "";
+      // const genre = job.genre?.toLowerCase() || "";
+      const gender = job.gender?.toLowerCase() || ""
 
       return Object.entries(searchedQuery).some(([filterType, values]) => {
         if (!values || values.length === 0) return false;
         const lowerCaseValues = values.map((val) => val.toLowerCase());
 
         switch (filterType) {
-          case "Location":
-            return lowerCaseValues.includes(location);
           case "Role Type":
             return lowerCaseValues.includes(roleType);
-          case "Genre":
-            return lowerCaseValues.includes(genre);
+          case "Genres":
+            return job.subGenres?.some((g) =>
+              lowerCaseValues.includes(g.toLowerCase())
+            );
           case "Gender":
             return lowerCaseValues.includes(gender);
           case "Age Range":
-            return lowerCaseValues.includes(ageRange);
+            return values.some((label) => {
+              const jobMinAge = job.age?.min || 0;
+              const jobMaxAge = job.age?.max || 100;
+              switch (label) {
+                case "Kids (0-12 years)":
+                  return jobMaxAge >= 0 && jobMinAge <= 12;
+                case "Teens (13-19 years)":
+                  return jobMaxAge >= 13 && jobMinAge <= 19;
+                case "Young Adults (20-30 years)":
+                  return jobMaxAge >= 20 && jobMinAge <= 30;
+                case "Adults (31-50 years)":
+                  return jobMaxAge >= 31 && jobMinAge <= 50;
+                case "Seniors (51+ years)":
+                  return jobMinAge >= 51;
+                default:
+                  return true;
+              }
+            });
           default:
             return false;
         }
+        
       });
     });
 

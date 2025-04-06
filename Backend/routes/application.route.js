@@ -23,10 +23,13 @@ import {
     getAuditionVideos // New function for fetching videos
 } from "../controllers/application.controller.js";
 import { videoUpload } from "../middlewares/multer.js"; // Import video upload middleware
+import multer from "multer"; //addded for video url 
 
 const router = express.Router();
 
-router.route("/apply/:id").post(isAuthenticated, applyJob);
+const upload = multer(); // Add this for handling text fields
+router.route("/apply/:id").post(isAuthenticated, upload.none(), applyJob);//added for video url
+// router.route("/apply/:id").post(isAuthenticated, applyJob);
 router.route("/get").get(isAuthenticated, getAppliedJobs);
 router.route("/:id/applicants").get(isAuthenticated, getApplicants);
 router.route("/status/:id/update").post(isAuthenticated, updateStatus);

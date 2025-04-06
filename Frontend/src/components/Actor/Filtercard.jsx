@@ -126,27 +126,22 @@ const filterData = [
     array: [
       "Lead Role",
       "Supporting Role",
-      "Background/Extra",
-      "Voice Acting",
-      "Stunt Performer",
-      "Editor",
+      "Background Role",
     ],
   },
   {
-    filterType: "Genre",
+    filterType: "Genres",
     array: [
-      "Movie",
-      "Web Series",
-      "Advertisement",
-      "TV Series",
-      "Theater",
-      "Commercial",
-      "Music Video",
+      "DRAMA",
+      "COMEDY",
+      "SCIENCE FICTION",
+      "FANTASY",
+      "HORROR",
+      "THRILLER",
+      "WESTERN",
+      "MUSICAL",
+      "ACTION","ADVENTURE","ROMANCE","MYSTERY","CRIME","HISTORICAL","SUPERHERO","ANIMATION","DOCUMENTARY"
     ],
-  },
-  {
-    filterType: "Location",
-    array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai"],
   },
 ];
 

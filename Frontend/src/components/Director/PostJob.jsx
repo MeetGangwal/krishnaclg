@@ -165,7 +165,9 @@ const PostJob = () => {
             roleDescription: job.roleDescription || "",
             expectedCompletionTime: job.expectedCompletionTime || "",
             skills: job.skills || "",
-            specialSubmissionAuditions: job.specialSubmissionAuditions || "",
+            specialSubmissionAuditions: Array.isArray(job.specialSubmissionAuditions)
+              ? job.specialSubmissionAuditions[0] || ""
+              : "",///added for radio button 
             auditionLocation: job.auditionDetails?.location || "",
             videoRequirement:job.auditionDetails?.videoRequirement || false,//added
             script: job.auditionDetails?.script || "",//added
@@ -329,7 +331,7 @@ const PostJob = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    {["DRAMA", "COMEDY", "SCIENCE FICTION", "FANTASY", "HORROR", "THRILLER", "WESTERN", "MUSICAL"].map((genre) => (
+                    {["DRAMA", "COMEDY", "SCIENCE FICTION", "FANTASY", "HORROR", "THRILLER", "WESTERN", "MUSICAL","ACTION","ADVENTURE","ROMANCE","MYSTERY","CRIME","HISTORICAL","SUPERHERO","ANIMATION","DOCUMENTARY"].map((genre) => (
                       <DropdownMenuItem key={genre} className="flex items-center space-x-2">
                         <input
                           type="checkbox"
@@ -374,22 +376,22 @@ const PostJob = () => {
               <div>
                 <Label>Age Range</Label>
                 <div className="flex gap-4">
-                  <Input placeholder="Min" value={input.age.min} name="ageMin" onChange={changeEventHandler} className="w-1/2" />
-                  <Input placeholder="Max" value={input.age.max} name="ageMax" onChange={changeEventHandler} className="w-1/2" />
+                  <Input type="number"  min="0" placeholder="Min" value={input.age.min} name="ageMin" onChange={changeEventHandler} className="w-1/2" />
+                  <Input type="number"  min="0" placeholder="Max" value={input.age.max} name="ageMax" onChange={changeEventHandler} className="w-1/2" />
                 </div>
               </div>
               <div>
-                <Label>HEIGHT</Label>
+                <Label>HEIGHT In Centimeter</Label>
                 <div className="flex gap-4">
-                  <Input placeholder="Min" value={input.height.min} name="heightMin" onChange={changeEventHandler} className="w-full" />
-                  <Input placeholder="Max" value={input.height.max} name="heightMax" onChange={changeEventHandler} className="w-full" />
+                  <Input type="number" min="20" placeholder="Min" value={input.height.min} name="heightMin" onChange={changeEventHandler} className="w-full" />
+                  <Input type="number" min="20" placeholder="Max" value={input.height.max} name="heightMax" onChange={changeEventHandler} className="w-full" />
                 </div>
               </div>
               <div>
                 <Label>WEIGHT</Label>
                 <div className="flex gap-4">
-                  <Input placeholder="Min" value={input.weight.min} name="weightMin" onChange={changeEventHandler} className="w-full" />
-                  <Input placeholder="Max" value={input.weight.max} name="weightMax" onChange={changeEventHandler} className="w-full" />
+                  <Input type="number"  min="1" placeholder="Min" value={input.weight.min} name="weightMin" onChange={changeEventHandler} className="w-full" />
+                  <Input type="number"  min="1" placeholder="Max" value={input.weight.max} name="weightMax" onChange={changeEventHandler} className="w-full" />
                 </div>
               </div>
               <div>
@@ -483,7 +485,7 @@ const PostJob = () => {
                 <Label>Select the Company</Label>
                 {companies.length > 0 && (
                   <Select
-                    onValueChange={(value) => setInput({ ...input, companyId: value })}
+                    onValueChange={(value) => setInput({ ...input, company: value })}
                     value={input.company} // Ensure this is bound to the state
                   >
                     <SelectTrigger className="w-full">

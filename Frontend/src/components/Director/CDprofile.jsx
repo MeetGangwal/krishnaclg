@@ -22,10 +22,11 @@ const isProfilePhoto = true;
 
 const CDprofile = () => {
   const [open, setOpen] = useState(false);
+  const { allAdminJobs } = useSelector((store) => store.job);//added for no.of post by director 
   const { user } = useSelector((store) => store.auth);
   const [refresh, setRefresh] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false); // New state to track modal visibility
-  
+  const jobsPostedByUser = allAdminJobs?.filter(job => job.created_by === user._id);//added for no.of post by director 
 
   // Ensure user is defined before accessing properties
   if (!user || !user.profile) {
@@ -138,6 +139,19 @@ const CDprofile = () => {
                 <span>{user.profile.projects}</span>
               ) : (
                 <span>No projects listed</span>
+              )}
+            </div>
+          </div>
+          {/*added for no.of post by director*/}
+          <div className="ml-6 my-5 font-extrabold flex items-center gap-4"> 
+            <Label className="text-white">
+              <ProjectorIcon />
+            </Label>
+            <div>
+              {jobsPostedByUser.length > 0 ? (
+                <span>{jobsPostedByUser.length} Job{jobsPostedByUser.length > 1 ? 's' : ''} Posted</span>
+              ) : (
+                <span>No Jobs Posted</span>
               )}
             </div>
           </div>

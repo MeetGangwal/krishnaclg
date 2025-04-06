@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,11 +10,12 @@ import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/util/constant";
 import { setSingleJob } from "@/Redux/JobSlice";
 import { toast } from "sonner";
 import BackButton from "../Shared/BackButton";
+import { setSingleCompany } from "@/Redux/CompanySlice";//added for viewing company details 
 
 const JobDescription = () => {
   const { singleJob } = useSelector((store) => store.job);
   const { user } = useSelector((store) => store.auth);
-
+  const [driveUrl, setDriveUrl] = useState(""); // added For storing the entered URL
   const isInitiallyApplied =
     singleJob?.applications?.some(
       (application) => application.applicant === user?._id
@@ -25,11 +27,24 @@ const JobDescription = () => {
   const params = useParams();
   const jobId = params.id;
   const dispatch = useDispatch();
+  const handleUrlChange = (e) => {
+    setDriveUrl(e.target.value); // Capture the URL entered by the user
+  };
 
   const applyJobHandler = async () => {
     try {
       const formData = new FormData();
       formData.append("auditionVideo", videoFile); // Append video file to FormData
+      if (singleJob?.specialSubmissionAuditions?.includes("Online")) {
+        if (!driveUrl) {
+          toast.error("Please enter a Drive URL for your audition video.");
+          return;
+        }
+        formData.append("urlvideo", driveUrl); // Ensure driveUrl is appended
+      }
+      for (let pair of formData.entries()) {
+        console.log(pair[0], pair[1]); // Log all form fields
+      }
 
       const res = await axios.post(
         `${APPLICATION_API_END_POINT}/apply/${jobId}`,
@@ -61,14 +76,20 @@ const JobDescription = () => {
         const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, {
           withCredentials: true,
         });
+
         if (res.data.success) {
           console.log(res.data.job);
           dispatch(setSingleJob(res.data.job));
-          setIsApplied(
-            res.data.job.applications.some(
-              (application) => application.applicant === user?._id
-            )
+          dispatch(setSingleCompany(res.data.job.company));//added for company details 
+          // Check if the user has applied
+          const appliedApplication = res.data.job.applications.find(
+            (application) => application.applicant === user?._id
           );
+
+          if (appliedApplication) {
+            setIsApplied(true);
+            setDriveUrl(appliedApplication.urlvideo || ""); // Store URL if available
+          }
         }
       } catch (error) {
         toast.error("Failed to fetch job details");
@@ -76,6 +97,7 @@ const JobDescription = () => {
     };
     fetchSingleJob();
   }, [jobId, dispatch, user?._id]);
+
 
   // Handle Video Upload
   const handleVideoUpload = async (e) => {
@@ -124,20 +146,20 @@ const JobDescription = () => {
       </div>
     );
   };
-  
+
 
   const renderRangeField = (label, min, max, unit = "") => {
     if (!min && !max) return null;
     return (
       <div className="my-4 px-4 py-3 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
 
-      <h1 className="font-extrabold text-gray-600 text-lg my-1">
-        {label}:{" "}
-        <span className="pl-4 font-medium text-black text-lg">
-          {min} - {max}
-          {unit}
-        </span>
-      </h1>
+        <h1 className="font-extrabold text-gray-600 text-lg my-1">
+          {label}:{" "}
+          <span className="pl-4 font-medium text-black text-lg">
+            {min} - {max}
+            {unit}
+          </span>
+        </h1>
       </div>
     );
   };
@@ -147,59 +169,58 @@ const JobDescription = () => {
     return (
       <div className="my-4 px-4 py-3 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
         <h1 className="font-extrabold text-gray-600 text-lg my-1">
-        {label}:{" "}
-        <span className="pl-4 font-medium text-black text-lg">
-          {array.join(", ")}
-        </span>
-      </h1></div>
+          {label}:{" "}
+          <span className="pl-4 font-medium text-black text-lg">
+            {array.join(", ")}
+          </span>
+        </h1></div>
     );
   };
 
   return (
     <div className="bg-main-bg min-h-screen">
-    <div className="bg-overlay-bg min-h-screen">
-      <Navbar />
-  
-      {/* White Box Wrapper - Make it Relative to Keep BackButton Inside */}
-      <div className="relative max-w-7xl mx-auto mt-10 rounded-2xl bg-white py-8 px-6 shadow-lg">
-        
-        {/* 🔹 Corrected Back Button Position */}
-        <div
-          className="absolute -top-5 -left-5 w-14 h-14 bg-black flex items-center justify-center rounded-full shadow-lg"
-        >
-          <BackButton />
-        </div>
-  
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="font-bold text-2xl text-gray-900">
-              {singleJob?.title}
-            </h1>
-            <div className="flex flex-wrap items-center gap-3 mt-4">
-              <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
-                {singleJob?.projectType}
-              </Badge>
-              <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
-                {singleJob?.roleType}
-              </Badge>
-              <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
-                ₹{singleJob?.salaryPerDay}/day
-              </Badge>
-            </div>
-          </div>
-  
-          <Button
-            onClick={isApplied ? null : applyJobHandler}
-            disabled={isApplied}
-            className={`rounded-lg px-6 py-2 text-lg font-semibold transition ${
-              isApplied
-                ? "bg-gray-300 text-gray-700 cursor-default"
-                : "bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900"
-            }`}
+      <div className="bg-overlay-bg min-h-screen">
+        <Navbar />
+
+        {/* White Box Wrapper - Make it Relative to Keep BackButton Inside */}
+        <div className="relative max-w-7xl mx-auto mt-10 rounded-2xl bg-white py-8 px-6 shadow-lg">
+
+          {/* 🔹 Corrected Back Button Position */}
+          <div
+            className="absolute -top-5 -left-5 w-14 h-14 bg-black flex items-center justify-center rounded-full shadow-lg"
           >
-            {isApplied ? "Already Applied" : "Apply Now"}
-          </Button>
-        </div>
+            <BackButton />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="font-bold text-2xl text-gray-900">
+                {singleJob?.title}
+              </h1>
+              <div className="flex flex-wrap items-center gap-3 mt-4">
+                <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
+                  {singleJob?.projectType}
+                </Badge>
+                <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
+                  {singleJob?.roleType}
+                </Badge>
+                <Badge className="text-white font-semibold px-3 py-1 rounded-full border border-purple-950 shadow-purple-300 shadow-md">
+                  ₹{singleJob?.salaryPerDay}/day
+                </Badge>
+              </div>
+            </div>
+
+            <Button
+              onClick={isApplied ? null : applyJobHandler}
+              disabled={isApplied}
+              className={`rounded-lg px-6 py-2 text-lg font-semibold transition ${isApplied
+                  ? "bg-gray-300 text-gray-700 cursor-default"
+                  : "bg-gradient-to-r from-blue-600 to-blue-800 text-white hover:from-blue-700 hover:to-blue-900"
+                }`}
+            >
+              {isApplied ? "Already Applied" : "Apply Now"}
+            </Button>
+          </div>
 
           {/* Job Description */}
           <h1 className="border-b-2 border-b-gray-300 font-bold text-lg py-4 text-black">
@@ -261,7 +282,7 @@ const JobDescription = () => {
               </h2>
 
               {singleJob?.specialSubmissionAuditions &&
-              String(singleJob.specialSubmissionAuditions).trim() ===
+                String(singleJob.specialSubmissionAuditions).trim() ===
                 "Offline" ? (
                 // 📌 Show only Location and Date for Offline Auditions
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -291,13 +312,25 @@ const JobDescription = () => {
                     <>
                       <h1 className="font-bold">Script:</h1>
                       <p
-                        
+
                         className="font-normal text-gray-600 "
                       >
                         {singleJob.auditionDetails.script}
                       </p>
                     </>
                   )}
+
+                  <h1 className="font-bold">Upload Drive URL</h1> {/*upload video url */}
+                  <input
+                    type="text"
+                    className="mt-2 p-2 border rounded-md w-full"
+                    placeholder="Enter your audition video link"
+                    value={driveUrl}
+                    onChange={handleUrlChange} // Update state when user types
+                    disabled={isApplied} // Disable if job is applied
+                    style={{ backgroundColor: isApplied ? "#f3f3f3" : "white" }} // Light grey when disabled
+                  />
+
                   <h1 className="font-bold">
                     Upload Audition Video (Max: 15MB)
                   </h1>

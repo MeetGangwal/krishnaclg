@@ -46,8 +46,8 @@ const userSchema = new mongoose.Schema(
       
       // Physical Attributes
       age: { type: Number },
-      height: { type: String },
-      weight: { type: String },
+      height: { type: Number },//added for string to number 
+      weight: { type: Number },//added from string to number 
       skinTone: { type: String },
       tattoosOrScars: { type: String,enum:["Yes" , "No"] },
       

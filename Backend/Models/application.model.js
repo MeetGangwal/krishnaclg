@@ -20,5 +20,9 @@ const applicationSchema = new mongoose.Schema({
         type: String, // Store Cloudinary URL
         default: null
     },
+    urlvideo: {//added for video url
+        type: String, 
+        default: null 
+    },
 },{timestamps:true});
 export const Application  = mongoose.model("Application", applicationSchema);
