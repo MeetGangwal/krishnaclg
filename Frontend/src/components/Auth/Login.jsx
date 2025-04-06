@@ -339,7 +339,7 @@ const Login = () => {
           dispatch(setUser(loginRes.data.user));
   
           // Step 3: Navigate to correct page based on role
-          navigate(res.data.role === "Director" ? "/admin/companies" : "/");
+          navigate(res.data.role === "Director" ? "/admin" : "/Home");
           toast.success("Logged in successfully!");
         } else {
           toast.error("Login failed. Please try again.");
