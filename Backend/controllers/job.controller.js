@@ -1,4 +1,5 @@
 import { Job } from "../Models/job.model.js";
+import { Application } from "../Models/application.model.js";
 
 
 // Admin posting a job
@@ -29,7 +30,7 @@ export const postJob = async (req, res) => {
       subGenres,
       subProjectType,
       auditionDetails,
-      companyId,
+      company,
     } = req.body;
 
     // Ensure auditionDetails and videoRequirement are handled properly
@@ -61,7 +62,7 @@ export const postJob = async (req, res) => {
     if (!expectedCompletionTime) missingFields.push("expectedCompletionTime");
     if (!specialSubmissionAuditions)
       missingFields.push("specialSubmissionAuditions");
-    if (!companyId) missingFields.push("companyId");
+    if (!company) missingFields.push("company");
     if (!subGenres) missingFields.push("subGenres");
     if (!subProjectType) missingFields.push("subProjectType");
 
@@ -112,7 +113,7 @@ export const postJob = async (req, res) => {
         ...auditionDetails,
         videoRequirement, // Ensure this is set correctly
       },
-      company: companyId,
+      company: company,
       script,
       created_by: userId,
     });

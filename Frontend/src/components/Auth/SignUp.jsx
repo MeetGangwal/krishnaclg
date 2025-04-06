@@ -101,6 +101,7 @@ const SignUp = () => {
                   onChange={changeEventHandler}
                   placeholder=""
                   className="w-full rounded-md p-2 bg-white/40 backdrop-blur-sm text-black focus:outline-none"
+                  disabled={googleUser.email}
                 />
               </div>
               <div className="my-2">
@@ -123,6 +124,7 @@ const SignUp = () => {
                   onChange={changeEventHandler}
                   placeholder=""
                   className="w-full rounded-md p-2 bg-white/40 backdrop-blur-sm text-black focus:outline-none"
+                  disabled={googleUser.email}
                 />
               </div>
 

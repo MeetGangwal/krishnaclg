@@ -27,8 +27,6 @@ const CDPersonalProfile = lazy(() =>import("./components/Director/CDPersonalProf
 const EmailCode = lazy(() => import("./components/Auth/EmailCode"));
 const LISTACTOR = lazy(() => import("./components/Actor/ActorList"));
 const MAINPAGE = lazy(() => import("./components/Shared/LandingPage"));
-const AdminDashboard = lazy(() => import("./components/AdminDashboard"));
-
 
 
 
@@ -50,14 +48,6 @@ const appRouter = createBrowserRouter([
   { path: "/Actors", element: <LISTACTOR /> },
 
   // Admin Routes
-  {
-    path: "/admin/dashboard",
-    element: (
-      <ProtectedRoute>
-        <AdminDashboard />
-      </ProtectedRoute>
-    ),
-  },
   {
     path: "/admin",
     element: (

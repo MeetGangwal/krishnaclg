@@ -77,7 +77,7 @@ const PostJob = () => {
       "title", "description", "projectType", "roleType", "roleName", "gender", "age.min", "age.max", "height.min", "height.max",
       "weight.min", "weight.max", "mediaRequirement",
       "salaryPerDay", "expectedWorkHours", "roleDescription",
-      "expectedCompletionTime", "specialSubmissionAuditions","companyId",
+      "expectedCompletionTime", "specialSubmissionAuditions","company",
     ];
     const missingFields = requiredFields.filter((field) => {
       const keys = field.split(".");
@@ -98,7 +98,7 @@ const PostJob = () => {
     const isEditMode = Boolean(jobId && jobId !== 'create');
     const flattenedInput = {//added
       ...input,
-      company:input.companyId,
+      company:input.company,
       ageMin: input.age.min,
       ageMax: input.age.max,
       heightMin: input.height.min,
@@ -107,7 +107,7 @@ const PostJob = () => {
       weightMax: input.weight.max,
       auditionDetails: {
         type: input.specialSubmissionAuditions,
-        script: input.auditionScript || null,
+        script: input.script || null,
         videoRequirement: input.videoRequirement === true,//updated
         location: input.auditionLocation || null,
         date: input.auditionDate || null
@@ -168,11 +168,11 @@ const PostJob = () => {
             specialSubmissionAuditions: job.specialSubmissionAuditions || "",
             auditionLocation: job.auditionDetails?.location || "",
             videoRequirement:job.auditionDetails?.videoRequirement || false,//added
-            auditionScript:job.auditionDetails?.script || "",
+            script: job.auditionDetails?.script || "",//added
             auditionDate: job.auditionDetails?.date
               ? new Date(job.auditionDetails.date).toISOString().split("T")[0]
               : "",
-            companyId: job.company?._id || "", // Pre-select company
+              company: job.company || "", // Pre-select company
           });
         }
       } catch (error) {
@@ -459,11 +459,11 @@ const PostJob = () => {
                 <>
                   <div>
                     <Label>Upload Audition Script</Label>
-                    <Input type="text"  name="auditionScript" onChange={changeEventHandler} />
+                    <Input type="text" value={input.script} name="script" onChange={changeEventHandler} />{/*added  */}
                   </div>
                   <div>
                     <Label>Receive Audition Video</Label>
-                    <Input type="checkbox" name="videoRequirement" onChange={changeEventHandler} checked={input.videoRequirement}/>
+                    <Input type="checkbox" name="videoRequirement" onChange={changeEventHandler} checked={input.videoRequirement} />
                   </div>
                 </>
               )}
@@ -484,7 +484,7 @@ const PostJob = () => {
                 {companies.length > 0 && (
                   <Select
                     onValueChange={(value) => setInput({ ...input, companyId: value })}
-                    value={input.companyId} // Ensure this is bound to the state
+                    value={input.company} // Ensure this is bound to the state
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a Company" />
